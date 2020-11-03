@@ -1,1 +1,1 @@
-# integrationArchitecturesWS2020-2021
+# IntegrationArchitecturesWS2020-2021
