@@ -1,14 +1,17 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
 public class Overview extends JFrame{
-    private JButton button1;
-    private JButton button2;
-    private JTable table1;
+    private JButton addSalesmanButton;
+    private JButton removeSalesmanButton;
+    private JTable staffTable;
     private JPanel mainPanel;
+    private JButton refreshButton;
 
     public Overview() throws IOException {
         super("Overview");
@@ -18,6 +21,12 @@ public class Overview extends JFrame{
         /*Image resource1 = ImageIO.read(new File("src//icons//add_folder.svg"));
         Icon icon1 = new ImageIcon(resource1);
         button1.setIcon(icon1);*/
+        addSalesmanButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame addFrame = new AddSalesMan();
+                addFrame.setVisible(true);
+            }
+        });
     }
-
 }
