@@ -16,6 +16,14 @@ public class SalesMan{
 		this.records = new ArrayList<EvaluationRecord>();
 	}
 	
+	public SalesMan(String firstname, String lastname, int id, EvaluationRecord record) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.id = id;
+		this.records = new ArrayList<EvaluationRecord>();
+		this.records.add(record);
+	}
+	
     public int getId() {
         return id;
     }
