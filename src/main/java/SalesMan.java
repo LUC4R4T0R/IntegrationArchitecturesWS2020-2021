@@ -1,3 +1,5 @@
+package main.java;
+
 public class SalesMan{
     public int getId() {
         return id;
@@ -27,7 +29,7 @@ public class SalesMan{
     private String firstname;
     private String lastname;
 
-    public SalesMan(id, firstname, lastname){
+    public SalesMan(int id, String firstname, String lastname){
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
