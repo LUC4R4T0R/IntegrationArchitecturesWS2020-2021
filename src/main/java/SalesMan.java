@@ -1,4 +1,18 @@
+import org.bson.Document;
+
 public class SalesMan{
+	
+    private int id;
+    private String firstname;
+    private String lastname;
+	
+    //Constructor
+	public SalesMan(String firstname, String lastname, int id) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.id = id;
+	}
+	
     public int getId() {
         return id;
     }
@@ -23,19 +37,13 @@ public class SalesMan{
         this.lastname = lastname;
     }
 
-    private int id;
-    private String firstname;
-    private String lastname;
-
-    public SalesMan(int id, String firstname, String lastname){
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-    }
-
     public String toString(){
         return id + ": " + firstname + " " + lastname;
     }
-
+    
+    public Document toDocument() {
+		return new Document();
+    	
+    }
 
 }
