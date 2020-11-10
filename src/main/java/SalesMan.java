@@ -1,5 +1,3 @@
-package main.java;
-
 public class SalesMan{
     public int getId() {
         return id;
