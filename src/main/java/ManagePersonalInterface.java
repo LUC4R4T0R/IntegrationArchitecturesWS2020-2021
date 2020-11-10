@@ -1,5 +1,3 @@
-package org.hbrs.ia.contract;
-
 import java.util.List;
 
 public interface ManagePersonalInterface {

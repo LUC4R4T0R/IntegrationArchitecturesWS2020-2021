@@ -1,5 +1,3 @@
-package org.hbrs.ia.contract;
-
 public class SalesMan{
     public int getId() {
         return id;

@@ -1,4 +1,4 @@
 
-public class ManagePersonal {
+public class ManagePersonal implements ManagePersonalInterface{
 
 }
