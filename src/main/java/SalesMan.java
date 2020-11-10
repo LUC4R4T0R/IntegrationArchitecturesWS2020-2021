@@ -1,16 +1,19 @@
-import org.bson.Document;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SalesMan{
 	
     private int id;
     private String firstname;
     private String lastname;
+    private List<EvaluationRecord> records;
 	
     //Constructor
 	public SalesMan(String firstname, String lastname, int id) {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.id = id;
+		this.records = new ArrayList<EvaluationRecord>();
 	}
 	
     public int getId() {
@@ -36,15 +39,13 @@ public class SalesMan{
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+    
+    public List<EvaluationRecord> getRecords() {
+		return records;
+	}
 
     public String toString(){
         return id + ": " + firstname + " " + lastname;
-    }
-    
-    //toDo
-    public Document toDocument() {
-		return new Document();
-    	
     }
 
 }

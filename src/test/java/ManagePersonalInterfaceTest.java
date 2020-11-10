@@ -51,29 +51,4 @@ class ManagePersonalInterfaceTest {
         // Deletion
         salesmen.drop();
     }
-
-    @Test
-    void insertSalesManMoreObjectOriented() {
-        // CREATE (Storing) the salesman business object
-        // Using setter instead
-        SalesMan salesMan = new SalesMan( "Leslie" , "Malton" , 90444 );
-
-        // ... now storing the object
-        salesmen.insertOne(salesMan.toDocument());
-
-        // READ (Finding) the stored Documnent
-        // Mapping Document to business object would be fine...
-        Document newDocument = this.salesmen.find().first();
-        System.out.println("Printing the object (JSON): " + newDocument );
-
-        // Assertion
-        Integer id = (Integer) newDocument.get("id");
-        assertEquals( 90444 , id );
-
-        // Deletion
-        salesmen.drop();
-    }
-
-
-
 }

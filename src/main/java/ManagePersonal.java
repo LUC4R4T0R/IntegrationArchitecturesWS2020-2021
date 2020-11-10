@@ -6,18 +6,18 @@ public class ManagePersonal implements ManagePersonalInterface {
 
 	@Override
 	public void createSalesMan(SalesMan record) {
-
+		//Create the SalesMan document that can to be stored in the Database
 		Document document = new Document();
 		document.append("firstname", record.getFirstname());
 		document.append("lastname", record.getLastname());
 		document.append("id", record.getId());
 
+		//string the document in the Database
 		Main.getSalesmen().insertOne(document);
 	}
 
 	@Override
 	public void addPerformanceRecord(EvaluationRecord record, int sid) {
-
 	}
 
 	@Override

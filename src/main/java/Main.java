@@ -18,6 +18,8 @@ public class Main {
         JFrame frame = new Overview();
         frame.setVisible(true);
         
+        ManagePersonal mP = new ManagePersonal();
+        
         client = new MongoClient("localhost", 27017);
         supermongo = client.getDatabase("highperformance");
         salesmen = supermongo.getCollection("salesmen");
