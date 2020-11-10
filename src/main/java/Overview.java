@@ -7,6 +7,8 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -38,9 +40,18 @@ public class Overview extends JFrame{
 
         this.pack();
 
-        /*Image resource1 = ImageIO.read(new File("src//icons//add_folder.svg"));
-        Icon icon1 = new ImageIcon(resource1);
-        button1.setIcon(icon1);*/
+        staffTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                JTable table =(JTable) mouseEvent.getSource();
+                Point point = mouseEvent.getPoint();
+                int row = table.rowAtPoint(point);
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row > -1) {
+                    openDetails(Integer.parseInt(table.getModel().getValueAt(row, 0).toString()));
+                }
+            }
+        });
+
         addSalesmanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,7 +60,22 @@ public class Overview extends JFrame{
             }
         });
 
-        //displaySalesMen(Arrays.asList(new SalesMan[]{new SalesMan("Jonas", "Brill", 123)}));
+        removeSalesmanButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(staffTable.getSelectedRow() >= 0) {
+                    System.out.println(staffTable.getValueAt(staffTable.getSelectedRow(), 0));
+                }
+            }
+        });
+
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadStaff();
+            }
+        });
+
         loadStaff();
     }
 
@@ -60,6 +86,16 @@ public class Overview extends JFrame{
     }
 
     public void loadStaff(){
+        displaySalesMen(Arrays.asList(new SalesMan[]{new SalesMan("Jonas", "Brill", 123)}));
+        displaySalesMen(Arrays.asList(new SalesMan[]{new SalesMan("Luca", "Ringhausen", 1234)}));
         displaySalesMen(Main.mP.querySalesMan("123", "id"));
+    }
+
+    public void openDetails(int id){
+        System.out.println(id);
+
+        SalesMan sm = Main.mP.readSalesMan(id); //new SalesMan("Jonas", "Brill", 123);
+        JFrame detailsFrame = new StaffDetails(sm);
+        detailsFrame.setVisible(true);
     }
 }
