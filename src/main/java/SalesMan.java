@@ -41,6 +41,7 @@ public class SalesMan{
         return id + ": " + firstname + " " + lastname;
     }
     
+    //toDo
     public Document toDocument() {
 		return new Document();
     	

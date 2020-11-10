@@ -9,7 +9,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 
-class HighPerformanceTest {
+class ManagePersonalInterfaceTest {
 
     private MongoClient client;
     private MongoDatabase supermongo;
