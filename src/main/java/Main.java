@@ -13,12 +13,14 @@ public class Main {
     private static MongoClient client;
     private static MongoDatabase supermongo;
     private static MongoCollection<Document> salesmen;
+
+    public static ManagePersonal mP;
 	
     public static void main(String[] args) throws IOException {
         JFrame frame = new Overview();
         frame.setVisible(true);
         
-        ManagePersonal mP = new ManagePersonal();
+        mP = new ManagePersonal();
         
         client = new MongoClient("localhost", 27017);
         supermongo = client.getDatabase("highperformance");
