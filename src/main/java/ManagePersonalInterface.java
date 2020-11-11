@@ -10,6 +10,6 @@ public interface ManagePersonalInterface {
 
     public List<SalesMan> querySalesMan(String attribute , String key );
 
-    public EvaluationRecord readEvaluationRecords( int sid );
+    public List<EvaluationRecord> readEvaluationRecords( int sid );
 
 }

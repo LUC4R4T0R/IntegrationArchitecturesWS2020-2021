@@ -24,23 +24,26 @@ public class ManagePersonal implements ManagePersonalInterface {
 	}
 
 	
-	
+	// einen Salesman der Datenbank hinzufügen
 	@Override
 	public void createSalesMan(SalesMan record) {
 		salesmen.insertOne(new SalesMan(record.getFirstname(), record.getLastname(), record.getId()).toDocument());
 	}
 
+	//einen Performance Record der Datenbank hinzufügen
 	@Override
 	public void addPerformanceRecord(EvaluationRecord record, int sid) {
 		records.insertOne(new SalesManRecord(sid, record).toDocument());
 	}
 
+	//einen Salesman mithilfe der Id finden und auslesen
 	@Override
 	public SalesMan readSalesMan(int sid) {
 		Document d = salesmen.find(eq("id", sid)).first();
 		return new SalesMan(d.getString("firstname"), d.getString("lastname"), d.getInteger("id"));
 	}
 
+	//alle Salesman mit einem bestimmten attribut finden und auslesen
 	@Override
 	public List<SalesMan> querySalesMan(String attribute, String key) {
 		List<Document> d = salesmen.find(eq(key,attribute)).into(new ArrayList<Document>());
@@ -51,9 +54,14 @@ public class ManagePersonal implements ManagePersonalInterface {
 		return s;
 	}
 
+	//alle PerformanceRecords eines Salesman anhand seiner id finden und auslesen
 	@Override
-	public EvaluationRecord readEvaluationRecords(int sid) {
-		Document d = salesmen.find(eq("id", ""+ sid)).first();
-		return (EvaluationRecord) d.get("records");
+	public List<EvaluationRecord> readEvaluationRecords(int sid) {
+		List<EvaluationRecord> e = new ArrayList<EvaluationRecord>();
+		List<Document> d = records.find(eq("id",sid)).into(new ArrayList<Document>());
+		for (int i = 0; i < d.size(); i++) {
+			e.add((EvaluationRecord) d.get(i).get("performance"));
+		}
+		return e;
 	}
 }

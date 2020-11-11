@@ -24,6 +24,10 @@ class ManagePersonalTest {
 	private SalesMan s2;
 	private SalesMan s3;
 	
+	private SalesManRecord r1;
+	private SalesManRecord r2;
+	private SalesManRecord r3;
+	
 
 	@BeforeEach
 	void setUp1() {
@@ -44,7 +48,17 @@ class ManagePersonalTest {
 		salesmen.insertOne(s2.toDocument());
 		salesmen.insertOne(s3.toDocument());
 		
-		records.insertOne(s1.toDocument());
+		
+		EvaluationRecord e1 = new EvaluationRecord("sehr gute Arbeit");
+		EvaluationRecord e2 = new EvaluationRecord("echt schelchte Arbeit");
+		EvaluationRecord e3 = new EvaluationRecord("ausreichend gearbeitet, aber verbesserungs würdig");
+		r1 = new SalesManRecord(1, e1);
+		r2 = new SalesManRecord(1, e2);
+		r3 = new SalesManRecord(2, e3);
+		records.insertOne(r1.toDocument());
+		records.insertOne(r2.toDocument());
+		records.insertOne(r3.toDocument());
+
 	}
 
 	@Test
@@ -56,7 +70,9 @@ class ManagePersonalTest {
 
 	@Test
 	public void addPerformanceRecordTest() {
-
+		EvaluationRecord r4 = new EvaluationRecord("ganz okay");
+		mp.addPerformanceRecord(r4, 3);
+		assertEquals(true, records.find(eq("id", 3)).first() != null);	
 	}
 
 	@Test
@@ -75,8 +91,11 @@ class ManagePersonalTest {
 		assertEquals(true, a && b);
 	}
 
-	@Test
-	public void readEvaluationRecordsTest() {
-
-	}
+//	@Test
+//	public void readEvaluationRecordsTest() {
+//		List<EvaluationRecord> e = mp.readEvaluationRecords(1);
+//		boolean a = e.get(0).equals(r1.getPerfromance());
+//		boolean b = e.get(1).equals(r2.getPerfromance());
+//		assertEquals(true, a);
+//	}
 }

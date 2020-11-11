@@ -1,37 +1,32 @@
 import org.bson.Document;
 
 public class SalesManRecord {
-	
+
 	private int salesmanId;
-	private EvaluationRecord record;
-	
-	public SalesManRecord(int salesmanId, EvaluationRecord record) {
+	private EvaluationRecord perfromance;
+
+	public SalesManRecord(int salesmanId, EvaluationRecord perfromance) {
 		this.salesmanId = salesmanId;
-		this.record = record;
+		this.perfromance = perfromance;
 	}
-	
-	public int getSalesmanId() {
-		return salesmanId;
-	}
+
 	public void setSalesmanId(int salesmanId) {
 		this.salesmanId = salesmanId;
 	}
-	public EvaluationRecord getRecord() {
-		return record;
+
+	public EvaluationRecord getPerfromance() {
+		return perfromance;
 	}
-	public void setRecord(EvaluationRecord record) {
-		this.record = record;
-	}
-	
-	public Document toDocument() {
+
+    public Document toDocument() {
     	Document d = new Document();
-    	d.append("record", this.record);
+		d.append("performance", this.perfromance.getPerformance());
 		d.append("id", this.salesmanId);
     	return d;
     }
     
-    public boolean equals(SalesMan s) {
+    public boolean equals(SalesManRecord s) {
     	return true;
     }
-	
+
 }
