@@ -43,8 +43,11 @@ public class Overview extends JFrame{
 
         this.pack();
 
-        Icon icon = new ImageIcon("src/main/icons/search.png"); //setting icon of the search button
-        searchButton.setIcon(icon);
+        Icon searchIcon = new ImageIcon("src/main/icons/search.png"); //loading icon of the search button
+        Icon refreshIcon = new ImageIcon("src/main/icons/refresh.png"); //loading icon of the refresh button
+
+        searchButton.setIcon(searchIcon);
+        refreshButton.setIcon(refreshIcon);
 
         staffTable.addMouseListener(new MouseAdapter() {
             @Override

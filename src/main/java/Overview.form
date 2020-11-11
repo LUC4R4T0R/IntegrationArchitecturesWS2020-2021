@@ -23,12 +23,14 @@
       </scrollpane>
       <component id="cdd09" class="javax.swing.JButton" binding="refreshButton" default-binding="true">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="140" height="26"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <minimum-size width="26" height="26"/>
+            <preferred-size width="26" height="26"/>
+            <maximum-size width="26" height="26"/>
           </grid>
         </constraints>
         <properties>
-          <text value="Refresh"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="4173d" class="javax.swing.JTextField" binding="searchBar">
@@ -65,7 +67,7 @@
       </component>
       <component id="e0ac2" class="javax.swing.JButton" binding="searchButton">
         <constraints>
-          <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+          <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
             <minimum-size width="26" height="26"/>
             <preferred-size width="26" height="26"/>
             <maximum-size width="26" height="26"/>
