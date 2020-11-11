@@ -106,14 +106,10 @@ public class Overview extends JFrame{
     }
 
     public void loadStaff(){
-        //displaySalesMen(Arrays.asList(new SalesMan[]{new SalesMan("Jonas", "Brill", 123), new SalesMan("Luca", "Ringhausen", 1234)}));
-        displaySalesMen(Main.mP.querySalesMan("Luca", "firstname"));
-        //List<SalesMan> temp = Main.mP.querySalesMan("Luca", "firstname");
+        displaySalesMen(Main.mP.getAllSalesMen());
     }
 
     public void openDetails(int id){
-        System.out.println(id);
-
         SalesMan sm = Main.mP.readSalesMan(id); //new SalesMan("Jonas", "Brill", 123);
         JFrame detailsFrame = new StaffDetails(sm);
         detailsFrame.setVisible(true);
