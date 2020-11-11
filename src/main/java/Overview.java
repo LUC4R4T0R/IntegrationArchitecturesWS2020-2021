@@ -21,6 +21,10 @@ public class Overview extends JFrame{
     private DefaultTableModel tm;
     private JPanel mainPanel;
     private JButton refreshButton;
+    private JTextField searchBar;
+    private JButton searchButton;
+    private JRadioButton firstnameRadio;
+    private JRadioButton lastnameRadio;
 
     public Overview() throws IOException {
         super("Overview");
@@ -39,6 +43,9 @@ public class Overview extends JFrame{
         staffTable.getTableHeader().resizeAndRepaint();
 
         this.pack();
+
+        Icon icon = new ImageIcon("src/main/icons/search.png");
+        searchButton.setIcon(icon);
 
         staffTable.addMouseListener(new MouseAdapter() {
             @Override
@@ -73,6 +80,16 @@ public class Overview extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 loadStaff();
+                searchBar.setText("");
+            }
+        });
+
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!searchBar.getText().isBlank()){
+                    displaySalesMen(Main.mP.querySalesMan(searchBar.getText(), (firstnameRadio.isSelected() ? "firstname" : "lastname")));
+                }
             }
         });
 
@@ -80,15 +97,18 @@ public class Overview extends JFrame{
     }
 
     public void displaySalesMen(List<SalesMan> sm){
+        for (int i = tm.getRowCount() - 1; i >= 0; i--) {
+            tm.removeRow(i);
+        }
         for(SalesMan salesMan : sm){
             tm.addRow(new Object[]{Integer.toString(salesMan.getId()), salesMan.getFirstname(), salesMan.getLastname()});
         }
     }
 
     public void loadStaff(){
-        displaySalesMen(Arrays.asList(new SalesMan[]{new SalesMan("Jonas", "Brill", 123)}));
-        displaySalesMen(Arrays.asList(new SalesMan[]{new SalesMan("Luca", "Ringhausen", 1234)}));
-        displaySalesMen(Main.mP.querySalesMan("123", "id"));
+        //displaySalesMen(Arrays.asList(new SalesMan[]{new SalesMan("Jonas", "Brill", 123), new SalesMan("Luca", "Ringhausen", 1234)}));
+        displaySalesMen(Main.mP.querySalesMan("Luca", "firstname"));
+        //List<SalesMan> temp = Main.mP.querySalesMan("Luca", "firstname");
     }
 
     public void openDetails(int id){
