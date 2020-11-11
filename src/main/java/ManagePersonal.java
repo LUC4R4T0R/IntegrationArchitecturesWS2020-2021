@@ -64,4 +64,13 @@ public class ManagePersonal implements ManagePersonalInterface {
 		}
 		return e;
 	}
+	
+	public List<SalesMan> getAllSaleMen(){
+		List<Document> d = salesmen.find().into(new ArrayList<Document>());
+		List<SalesMan> s = new ArrayList<SalesMan>();
+		for (int i = 0; i < d.size(); i++) {
+			s.add(new SalesMan(d.get(i).getString("firstname"), d.get(i).getString("lastname"), d.get(i).getInteger("id")));
+		}
+		return s;
+	}
 }

@@ -51,7 +51,7 @@ class ManagePersonalTest {
 		
 		EvaluationRecord e1 = new EvaluationRecord("sehr gute Arbeit");
 		EvaluationRecord e2 = new EvaluationRecord("echt schelchte Arbeit");
-		EvaluationRecord e3 = new EvaluationRecord("ausreichend gearbeitet, aber verbesserungs würdig");
+		EvaluationRecord e3 = new EvaluationRecord("ausreichend gearbeitet, aber verbesserungswürdig");
 		r1 = new SalesManRecord(1, e1);
 		r2 = new SalesManRecord(1, e2);
 		r3 = new SalesManRecord(2, e3);
@@ -98,4 +98,14 @@ class ManagePersonalTest {
 //		boolean b = e.get(1).equals(r2.getPerfromance());
 //		assertEquals(true, a);
 //	}
+	
+	@Test
+	public void getAllSaleMenTest() {
+		List<SalesMan> s = mp.getAllSaleMen();
+		boolean a = s.get(0).equals(s1);
+		boolean b = s.get(1).equals(s2);
+		boolean c = s.get(2).equals(s3);
+		assertEquals(true, a && b && c);
+	}
+	
 }
