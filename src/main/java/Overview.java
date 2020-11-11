@@ -1,17 +1,11 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 public class Overview extends JFrame{
@@ -26,17 +20,22 @@ public class Overview extends JFrame{
     private JRadioButton firstnameRadio;
     private JRadioButton lastnameRadio;
 
+    /**
+     * main window for displaying all the salesmen and basic management functionalities
+     * @throws IOException
+     */
     public Overview() throws IOException {
         super("Overview");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //stop whole program, when this window is closed
         this.setContentPane(mainPanel);
 
         tm = new DefaultTableModel(){
           public boolean isCellEditable(int row, int column){
               return false;
           }
-        };
+        }; //specify table as not editable
         staffTable.setModel(tm);
+        //setting column-headers:
         tm.addColumn("ID");
         tm.addColumn("Firstname");
         tm.addColumn("Lastname");
@@ -44,7 +43,7 @@ public class Overview extends JFrame{
 
         this.pack();
 
-        Icon icon = new ImageIcon("src/main/icons/search.png");
+        Icon icon = new ImageIcon("src/main/icons/search.png"); //setting icon of the search button
         searchButton.setIcon(icon);
 
         staffTable.addMouseListener(new MouseAdapter() {
@@ -53,24 +52,24 @@ public class Overview extends JFrame{
                 JTable table =(JTable) mouseEvent.getSource();
                 Point point = mouseEvent.getPoint();
                 int row = table.rowAtPoint(point);
-                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row > -1) {
-                    openDetails(Integer.parseInt(table.getModel().getValueAt(row, 0).toString()));
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row > -1) { //executed if salesman is double-clicked
+                    openDetails(Integer.parseInt(table.getModel().getValueAt(row, 0).toString())); //opening details-window
                 }
             }
         });
 
         addSalesmanButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                JFrame addFrame = new AddSalesMan();
+            public void actionPerformed(ActionEvent e) { //"Add Salesman" button pressed
+                JFrame addFrame = new AddSalesMan(); //create window for add form
                 addFrame.setVisible(true);
             }
         });
 
         removeSalesmanButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if(staffTable.getSelectedRow() >= 0) {
+            public void actionPerformed(ActionEvent e) { //"Remove Salesman" button pressed
+                if(staffTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
                     System.out.println(staffTable.getValueAt(staffTable.getSelectedRow(), 0));
                 }
             }
@@ -78,40 +77,51 @@ public class Overview extends JFrame{
 
         refreshButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                loadStaff();
-                searchBar.setText("");
+            public void actionPerformed(ActionEvent e) {//"refresh" button pressed
+                loadStaff(); //reload staff table
+                searchBar.setText(""); //empty search-bar
             }
         });
 
         searchButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if(!searchBar.getText().isBlank()){
-                    displaySalesMen(Main.mP.querySalesMan(searchBar.getText(), (firstnameRadio.isSelected() ? "firstname" : "lastname")));
+            public void actionPerformed(ActionEvent e) {//"search" button pressed
+                if(!searchBar.getText().isBlank()){ //check if search bar is not blank
+                    displaySalesMen(Main.mP.querySalesMan(searchBar.getText(), (firstnameRadio.isSelected() ? "firstname" : "lastname"))); //search for salesman having this property
                 }
             }
         });
 
-        loadStaff();
+        loadStaff(); //load staff table on first load
     }
 
+    /**
+     * function to display salesmen in the staff table
+     * @param sm list of salesmen to display
+     */
     public void displaySalesMen(List<SalesMan> sm){
-        for (int i = tm.getRowCount() - 1; i >= 0; i--) {
+        for (int i = tm.getRowCount() - 1; i >= 0; i--) { //first empty the table
             tm.removeRow(i);
         }
-        for(SalesMan salesMan : sm){
+        for(SalesMan salesMan : sm){ //iterating through the list to add all salesmen
             tm.addRow(new Object[]{Integer.toString(salesMan.getId()), salesMan.getFirstname(), salesMan.getLastname()});
         }
     }
 
+    /**
+     * function for (re)loading all salesmen into the staff table
+     */
     public void loadStaff(){
         displaySalesMen(Main.mP.getAllSalesMen());
     }
 
+    /**
+     * function for opening a details window
+     * @param id specifies the salesman, whose details are shown
+     */
     public void openDetails(int id){
-        SalesMan sm = Main.mP.readSalesMan(id); //new SalesMan("Jonas", "Brill", 123);
-        JFrame detailsFrame = new StaffDetails(sm);
+        SalesMan sm = Main.mP.readSalesMan(id); //get salesman fromDB
+        JFrame detailsFrame = new StaffDetails(sm); //create window
         detailsFrame.setVisible(true);
     }
 }

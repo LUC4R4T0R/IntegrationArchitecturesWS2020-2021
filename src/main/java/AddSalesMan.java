@@ -9,9 +9,12 @@ public class AddSalesMan extends JFrame{
     private JButton addButton;
     private JPanel addPanel;
 
+    /**
+     * Form for adding a new salesman
+     */
     public AddSalesMan(){
-        super("Add Salesman");
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        super("Add Salesman"); //setting title
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //only close this window
         this.setContentPane(addPanel);
         this.pack();
 
@@ -19,15 +22,17 @@ public class AddSalesMan extends JFrame{
 
         addButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                SalesMan newSalesMan = new SalesMan(firstname.getText(), lastname.getText(), Integer.parseInt(id.getText()));
-                System.out.println(newSalesMan);
-                Main.mP.createSalesMan(newSalesMan);
-                kill();
+            public void actionPerformed(ActionEvent e) {//"Add" button pressed
+                SalesMan newSalesMan = new SalesMan(firstname.getText(), lastname.getText(), Integer.parseInt(id.getText())); //create new salesman
+                Main.mP.createSalesMan(newSalesMan); //store salesman in DB
+                kill(); //close window
             }
         });
     }
 
+    /**
+     * function for closing the current window
+     */
     private void kill(){
         this.dispose();
     }
