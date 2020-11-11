@@ -24,9 +24,5 @@ public class SalesManRecord {
 		d.append("id", this.salesmanId);
     	return d;
     }
-    
-    public boolean equals(SalesManRecord s) {
-    	return true;
-    }
 
 }

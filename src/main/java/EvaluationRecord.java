@@ -10,4 +10,7 @@ public class EvaluationRecord {
 		return performance;
 	}
 	
+    public boolean equals(EvaluationRecord s) {
+    	return this.performance.equals(s.getPerformance());
+    }
 }

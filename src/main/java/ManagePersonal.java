@@ -60,7 +60,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 		List<EvaluationRecord> e = new ArrayList<EvaluationRecord>();
 		List<Document> d = records.find(eq("id",sid)).into(new ArrayList<Document>());
 		for (int i = 0; i < d.size(); i++) {
-			e.add((EvaluationRecord) d.get(i).get("performance"));
+			e.add(new EvaluationRecord(d.get(i).getString("performance")));
 		}
 		return e;
 	}

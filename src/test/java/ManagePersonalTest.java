@@ -24,6 +24,10 @@ class ManagePersonalTest {
 	private SalesMan s2;
 	private SalesMan s3;
 	
+	EvaluationRecord e1;
+	EvaluationRecord e2;
+	EvaluationRecord e3;
+	
 	private SalesManRecord r1;
 	private SalesManRecord r2;
 	private SalesManRecord r3;
@@ -49,9 +53,9 @@ class ManagePersonalTest {
 		salesmen.insertOne(s3.toDocument());
 		
 		
-		EvaluationRecord e1 = new EvaluationRecord("sehr gute Arbeit");
-		EvaluationRecord e2 = new EvaluationRecord("echt schelchte Arbeit");
-		EvaluationRecord e3 = new EvaluationRecord("ausreichend gearbeitet, aber verbesserungswürdig");
+		e1 = new EvaluationRecord("sehr gute Arbeit");
+		e2 = new EvaluationRecord("echt schelchte Arbeit");
+		e3 = new EvaluationRecord("ausreichend gearbeitet, aber verbesserungswürdig");
 		r1 = new SalesManRecord(1, e1);
 		r2 = new SalesManRecord(1, e2);
 		r3 = new SalesManRecord(2, e3);
@@ -91,13 +95,13 @@ class ManagePersonalTest {
 		assertEquals(true, a && b);
 	}
 
-//	@Test
-//	public void readEvaluationRecordsTest() {
-//		List<EvaluationRecord> e = mp.readEvaluationRecords(1);
-//		boolean a = e.get(0).equals(r1.getPerfromance());
-//		boolean b = e.get(1).equals(r2.getPerfromance());
-//		assertEquals(true, a);
-//	}
+	@Test
+	public void readEvaluationRecordsTest() {
+		List<EvaluationRecord> e = mp.readEvaluationRecords(1);
+		boolean a = e.get(0).equals(e1);
+		boolean b = e.get(1).equals(e2);
+		assertEquals(true, a);
+	}
 	
 	@Test
 	public void getAllSaleMenTest() {
