@@ -18,14 +18,14 @@ public class Main {
     public static ManagePersonal mP;
 	
     public static void main(String[] args) throws IOException {
-        JFrame frame = new Overview();
-        frame.setVisible(true);
-        
         client = new MongoClient("localhost", 27017);
         supermongo = client.getDatabase("highperformance");
         salesmen = supermongo.getCollection("salesmen");
         records = supermongo.getCollection("records");
         
         mP = new ManagePersonal(salesmen, records);
+
+        JFrame frame = new Overview();
+        frame.setVisible(true);
     }
 }
