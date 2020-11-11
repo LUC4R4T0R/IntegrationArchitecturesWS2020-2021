@@ -10,14 +10,21 @@ import com.mongodb.client.MongoCollection;
 public class ManagePersonal implements ManagePersonalInterface {
 	
 	private MongoCollection<Document> salesmen;
+	private MongoCollection<Document> records;
 	
-	public ManagePersonal(MongoCollection<Document> salesmen) {
+	public ManagePersonal(MongoCollection<Document> salesmen, MongoCollection<Document> record) {
 		if (salesmen == null) {
 			throw new IllegalArgumentException("Salesmen required");
 		}
 		this.salesmen = salesmen;
+		if (record == null) {
+			throw new IllegalArgumentException("Record required");
+		}
+		this.records = record;
 	}
 
+	
+	
 	@Override
 	public void createSalesMan(SalesMan record) {
 		salesmen.insertOne(new SalesMan(record.getFirstname(), record.getLastname(), record.getId()).toDocument());
@@ -25,9 +32,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 
 	@Override
 	public void addPerformanceRecord(EvaluationRecord record, int sid) {
-		Document d = salesmen.find(eq("id", ""+ sid)).first();
-		List<EvaluationRecord> e = (List<EvaluationRecord>) d.get("record");
-		e.add(record);
+		records.insertOne(new SalesManRecord(sid, record).toDocument());
 	}
 
 	@Override

@@ -15,9 +15,10 @@ class ManagePersonalTest {
 
 	private MongoClient client = new MongoClient("localhost", 27017);
 	private MongoDatabase supermongo = client.getDatabase("highperformance");
-	private MongoCollection<Document> salesmen = supermongo.getCollection("salesmen");;
+	private MongoCollection<Document> salesmen = supermongo.getCollection("salesmen");
+	private MongoCollection<Document> records = supermongo.getCollection("records");
 
-	private ManagePersonal mp = new ManagePersonal(salesmen);
+	private ManagePersonal mp = new ManagePersonal(salesmen, records);
 	
 	private SalesMan s1;
 	private SalesMan s2;
@@ -29,7 +30,12 @@ class ManagePersonalTest {
 		if (salesmen != null) {
 			salesmen.drop();
 		}
+		if (records != null) {
+			records.drop();
+		}
 		salesmen = supermongo.getCollection("salesmen");
+		records = supermongo.getCollection("records");
+
 
 		s1 = new SalesMan("Jonas", "Brill", 1);
 		s2 = new SalesMan("Luca", "Ringhausen", 2);
@@ -37,6 +43,8 @@ class ManagePersonalTest {
 		salesmen.insertOne(s1.toDocument());
 		salesmen.insertOne(s2.toDocument());
 		salesmen.insertOne(s3.toDocument());
+		
+		records.insertOne(s1.toDocument());
 	}
 
 	@Test
