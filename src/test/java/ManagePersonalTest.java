@@ -101,7 +101,7 @@ class ManagePersonalTest {
 	
 	@Test
 	public void getAllSaleMenTest() {
-		List<SalesMan> s = mp.getAllSaleMen();
+		List<SalesMan> s = mp.getAllSalesMen();
 		boolean a = s.get(0).equals(s1);
 		boolean b = s.get(1).equals(s2);
 		boolean c = s.get(2).equals(s3);

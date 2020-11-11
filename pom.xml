@@ -63,7 +63,15 @@
 				<version>3.0.0</version>
 				<!-- Clean up also any pre-compiled themes -->
 			</plugin>
-		</plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+        </plugins>
 	</build>
 	<artifactId>Sales</artifactId>
 </project>
