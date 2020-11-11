@@ -1,27 +1,15 @@
-import java.util.ArrayList;
-import java.util.List;
+import org.bson.Document;
 
 public class SalesMan{
 	
     private int id;
     private String firstname;
     private String lastname;
-    private List<EvaluationRecord> records;
 	
-    //Constructor
 	public SalesMan(String firstname, String lastname, int id) {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.id = id;
-		this.records = new ArrayList<EvaluationRecord>();
-	}
-	
-	public SalesMan(String firstname, String lastname, int id, EvaluationRecord record) {
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.id = id;
-		this.records = new ArrayList<EvaluationRecord>();
-		this.records.add(record);
 	}
 	
     public int getId() {
@@ -47,13 +35,21 @@ public class SalesMan{
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
-    
-    public List<EvaluationRecord> getRecords() {
-		return records;
-	}
 
     public String toString(){
         return id + ": " + firstname + " " + lastname;
+    }
+    
+    public Document toDocument() {
+    	Document d = new Document();
+    	d.append("firstname", this.firstname);
+		d.append("lastname", this.lastname);
+		d.append("id", this.id);
+    	return d;
+    }
+    
+    public boolean equals(SalesMan s) {
+    	return this.lastname.equals(s.getLastname()) && this.firstname.equals(s.getFirstname()) && this.id == s.getId();
     }
 
 }

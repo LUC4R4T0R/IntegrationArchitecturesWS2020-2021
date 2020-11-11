@@ -1,4 +1,7 @@
+import static com.mongodb.client.model.Filters.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
 
 import org.bson.Document;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +15,7 @@ class ManagePersonalTest {
 
 	private MongoClient client = new MongoClient("localhost", 27017);
 	private MongoDatabase supermongo = client.getDatabase("highperformance");
-	private MongoCollection<Document> salesmen;
+	private MongoCollection<Document> salesmen = supermongo.getCollection("salesmen");;
 
 	private ManagePersonal mp = new ManagePersonal(salesmen);
 	
@@ -27,57 +30,45 @@ class ManagePersonalTest {
 			salesmen.drop();
 		}
 		salesmen = supermongo.getCollection("salesmen");
-		
-		Document document1 = new Document();
-		document1.append("firstname", "Jonas");
-		document1.append("lastname", "Brill");
-		document1.append("id", 1);
-		document1.append("records", null);
-		s1 = new SalesMan("Jonas", "Brill", 1, null);
 
-//		Document document2 = new Document();
-//		document2.append("firstname", "Luca");
-//		document2.append("lastname", "Ringhause");
-//		document2.append("id", "2");
-//		document2.append("records", null);
-//		s2 = new SalesMan("Luca", "Ringhausen", 2, null);
-//
-//		Document document3 = new Document();
-//		document3.append("firstname", "Luca");
-//		document3.append("lastname", "Ringhausen");
-//		document3.append("id", "3");
-//		document3.append("records", null);
-//		s3 = new SalesMan("Luca", "Ringhausen", 3, null);
-
-		salesmen.insertOne(document1);
-//		salesmen.insertOne(document2);
-//		salesmen.insertOne(document3);
+		s1 = new SalesMan("Jonas", "Brill", 1);
+		s2 = new SalesMan("Luca", "Ringhausen", 2);
+		s3 = new SalesMan("Luca", "Ringhausen", 3);
+		salesmen.insertOne(s1.toDocument());
+		salesmen.insertOne(s2.toDocument());
+		salesmen.insertOne(s3.toDocument());
 	}
 
-//	@Test
-//	void createSalesManTest() {
-//
-//	}
-//
-//	@Test
-//	public void addPerformanceRecordTest() {
-//
-//	}
+	@Test
+	void createSalesManTest() {
+		SalesMan s4 = new SalesMan("Jonas", "Brill", 4);
+		mp.createSalesMan(s4);
+		assertEquals(true, salesmen.find(eq("id", 4)).first() != null);	
+	}
+
+	@Test
+	public void addPerformanceRecordTest() {
+
+	}
 
 	@Test
 	public void readSalesManTest() {
 		SalesMan s = mp.readSalesMan(1);
-		assertEquals(s1, s);
+		boolean a = s.equals(s1);
+		assertEquals(true, a);
 		
 	}
 
-//	@Test
-//	public void querySalesManTest() {
-//
-//	}
-//
-//	@Test
-//	public void readEvaluationRecordsTest() {
-//
-//	}
+	@Test
+	public void querySalesManTest() {
+		List<SalesMan> s = mp.querySalesMan("Luca", "firstname");
+		boolean a = s.get(0).equals(s2);
+		boolean b = s.get(1).equals(s3);
+		assertEquals(true, a && b);
+	}
+
+	@Test
+	public void readEvaluationRecordsTest() {
+
+	}
 }
