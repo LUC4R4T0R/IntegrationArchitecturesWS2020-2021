@@ -114,12 +114,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * @return This method has no return-value.
 	 */
 	public void updateSalesMen(int sid, String key, String attribute) {
-		Document d = salesmen.findOneAndDelete(eq("id", sid));
-		if (key.equals("firstname")) {
-			salesmen.insertOne(new SalesMan(attribute, d.getString("lastname"), d.getInteger("id")).toDocument());
-		} else {
-			salesmen.insertOne(new SalesMan(d.getString("firstname"), attribute, d.getInteger("id")).toDocument());
-		}
+		salesmen.updateOne(eq("id", sid), new Document("$set", new Document(key, attribute)));
 	}
 
 	/**
@@ -162,6 +157,19 @@ public class ManagePersonal implements ManagePersonalInterface {
 			e.add(new EvaluationRecord(d.get(i).getString("performance")));
 		}
 		return e;
+	}
+	
+	/**
+	 * Updates the EvaluationRecord with the given id attribute.
+	 * 
+	 * @param old       The attribute that will be updated.
+	 * @param key       The key of the attribute that will be updated.
+	 * @param attribute The new value.
+	 * 
+	 * @return This method has no return-value.
+	 */
+	public void updateEvaluationRecord(String old, String key, String attribute) {
+		salesmen.updateOne(eq(key, old), new Document("$set", new Document(key, attribute)));
 	}
 
 	/**
