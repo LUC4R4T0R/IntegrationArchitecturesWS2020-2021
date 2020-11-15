@@ -73,7 +73,7 @@ public class Overview extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) { //"Remove Salesman" button pressed
                 if(staffTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
-                    System.out.println(staffTable.getValueAt(staffTable.getSelectedRow(), 0));
+                    Main.mP.deleteSalesMen(Integer.parseInt(staffTable.getValueAt(staffTable.getSelectedRow(), 0).toString()));
                 }
             }
         });
