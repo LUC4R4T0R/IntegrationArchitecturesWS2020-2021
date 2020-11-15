@@ -1,6 +1,6 @@
 import static com.mongodb.client.model.Filters.eq;
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
