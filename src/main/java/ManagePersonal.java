@@ -118,7 +118,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * @return This method has no return-value.
 	 */
 	public void updateSalesMen(int sid, String key, String attribute) {
-		salesmen.updateOne(eq("id", sid), new Document("$set", new Document(key, attribute)));
+		salesmen.findOneAndUpdate(eq("id", sid), new Document("$set", new Document(key, attribute)));
 	}
 
 	/**
@@ -158,7 +158,14 @@ public class ManagePersonal implements ManagePersonalInterface {
 		List<EvaluationRecord> e = new ArrayList<EvaluationRecord>();
 		List<Document> d = records.find(eq("id", sid)).into(new ArrayList<Document>());
 		for (int i = 0; i < d.size(); i++) {
-			e.add(new EvaluationRecord((int[]) d.get(i).get("performance"), d.get(i).getInteger("year")));
+			int[] test = new int[6];
+			test[0] = d.get(i).getInteger("LC");
+			test[1] = d.get(i).getInteger("OtE");
+			test[2] = d.get(i).getInteger("SBtE");
+			test[3] = d.get(i).getInteger("AtC");
+			test[4] = d.get(i).getInteger("CS");
+			test[5] = d.get(i).getInteger("ItC");
+			e.add(new EvaluationRecord(test, d.get(i).getInteger("year")));
 		}
 		return e;
 	}
@@ -174,19 +181,19 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * @return This method has no return-value.
 	 */
 	public void updateEvaluationRecord(int id, int year, String key, int attribute) {
-		salesmen.findOneAndUpdate(and(eq("id", id), eq("year", year)), new Document("$set", new Document(key, attribute)));
+		salesmen.findOneAndUpdate(and(eq("id", id), eq("year", year)),
+				new Document("$set", new Document(key, attribute)));
 	}
 
 	/**
 	 * Deletes the SalesMan with the given attribute.
 	 * 
-	 * @param sid    The Id of the SalesMan that EvaluationRecord will be deleted.
-	 * @param delete The String of the SalesMan that EvaluationRecord will be
-	 *               deleted.
+	 * @param sid  The Id of the SalesMan that EvaluationRecord will be deleted.
+	 * @param year The year of the EvaluationRecord will be deleted.
 	 * 
 	 * @return This method has no return-value.
 	 */
-	public void deleteEvaluationRecord(int sid, String delete) {
-		records.findOneAndDelete(eq("records", delete));
+	public void deleteEvaluationRecord(int sid, int year) {
+		records.findOneAndDelete(and(eq("id", sid), eq("year", year)));
 	}
 }

@@ -58,7 +58,6 @@ public class EvaluationRecord {
 	 * @return Returns true if the two EvaluationRecords are equal and false if not.
 	 */
 	public boolean equals(EvaluationRecord er) {
-		return this.year == er.getYear()&& this.performance[0] != 1;
-		// && this.performance[0] == er.getPerformance()[0] && this.performance[1] == er.getPerformance()[1] && this.performance[2] == er.getPerformance()[2] && this.performance[3] == er.getPerformance()[3] && this.performance[4] == er.getPerformance()[4] && this.performance[5] == er.getPerformance()[5]
+		return this.year == er.getYear() && this.performance[0] == er.getPerformance()[0] && this.performance[1] == er.getPerformance()[1] && this.performance[2] == er.getPerformance()[2] && this.performance[3] == er.getPerformance()[3] && this.performance[4] == er.getPerformance()[4] && this.performance[5] == er.getPerformance()[5];
 	}
 }

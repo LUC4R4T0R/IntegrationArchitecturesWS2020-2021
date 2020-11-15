@@ -58,7 +58,7 @@ class ManagePersonalTest {
 		int[] array2 = {2,2,2,2,2,2};
 		int[] array3 = {3,3,3,3,3,3};
 		e1 = new EvaluationRecord(array1,2020);
-		e2 = new EvaluationRecord(array2,2020);
+		e2 = new EvaluationRecord(array2,2021);
 		e3 = new EvaluationRecord(array3,2020);
 		r1 = new SalesManRecord(1, e1);
 		r2 = new SalesManRecord(1, e2);
@@ -132,19 +132,19 @@ class ManagePersonalTest {
 		assertEquals(true, a);
 	}
 	
-//	@Test
-//	public void updateEvaluationRecordTest() {
-//		int[] test = {3,3,3,3,3,10};
-//		EvaluationRecord e4 = new EvaluationRecord(test,2020);
-//		mp.updateEvaluationRecord(2, 2020, "ItC", 10);
-//		List<EvaluationRecord> e = mp.readEvaluationRecords(2);
-//		boolean a = e.get(0).equals(e4);
-//		assertEquals(true, a);
-//	}
-//	
-//	@Test
-//	public void deleteEvaluationRecordTest() {
-//		mp.deleteEvaluationRecord(2,"ausreichend gearbeitet, aber verbesserungswürdig");
-//		assertNull(mp.readEvaluationRecords(2));
-//	}
+	@Test
+	public void updateEvaluationRecordTest() {
+		int[] test = {3,3,3,3,3,3};
+		EvaluationRecord e4 = new EvaluationRecord(test,10);
+		mp.updateEvaluationRecord(1, 2020, "year", 10);
+		List<EvaluationRecord> e = mp.readEvaluationRecords(1);
+		boolean a = e.get(0).equals(e4);
+		assertEquals(true, a);
+	}
+	
+	@Test
+	public void deleteEvaluationRecordTest() {
+		mp.deleteEvaluationRecord(2, 2020);
+		assertEquals(true, mp.readEvaluationRecords(2).isEmpty());
+	}
 }
