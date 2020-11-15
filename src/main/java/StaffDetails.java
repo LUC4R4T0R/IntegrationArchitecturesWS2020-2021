@@ -7,9 +7,11 @@ public class StaffDetails extends JFrame{
     private JTable recordsTable;
     private JPanel detailsPanel;
     private JLabel id;
-    private JLabel firstname;
-    private JLabel lastname;
+    private JTextField firstname;
+    private JTextField lastname;
     private JButton addRecord;
+    private JButton saveButton;
+    private JButton deleteRecordButton;
     private DefaultTableModel tm;
 
     /**
@@ -50,6 +52,14 @@ public class StaffDetails extends JFrame{
             public void actionPerformed(ActionEvent e) { //"Add Record" button pressed
                 JFrame addEvalFrame = new AddEvalRecord(sm);//creating window
                 addEvalFrame.setVisible(true);
+            }
+        });
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { //"Save" button pressed
+                System.out.println("updating");
+                Main.mP.updateSalesMen(sm.getId(), firstname.getText(), lastname.getText());
             }
         });
     }
