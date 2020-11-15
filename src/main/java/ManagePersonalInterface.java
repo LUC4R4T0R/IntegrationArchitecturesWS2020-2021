@@ -2,14 +2,24 @@ import java.util.List;
 
 public interface ManagePersonalInterface {
 
-    public void createSalesMan( SalesMan record );
+    void createSalesMan(SalesMan record);
+    
+    SalesMan readSalesMan( int sid );
+    
+    List<SalesMan> querySalesMan(String attribute , String key );
 
-    public void addPerformanceRecord( EvaluationRecord record , int sid );
+    List<SalesMan> getAllSalesMen();
+    
+    void updateSalesMen(int sid, String key, String attribute);
 
-    public SalesMan readSalesMan( int sid );
+    void deleteSalesMen(int sid);
+    
+    void addPerformanceRecord( EvaluationRecord record , int sid );
+    
+    List<EvaluationRecord> readEvaluationRecords( int sid );
 
-    public List<SalesMan> querySalesMan(String attribute , String key );
+    void updateEvaluationRecord(int id, int year, String key, int attribute);
 
-    public List<EvaluationRecord> readEvaluationRecords( int sid );
+    void deleteEvaluationRecord(int sid, int year);
 
 }

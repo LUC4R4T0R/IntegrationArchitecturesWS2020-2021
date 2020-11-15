@@ -16,12 +16,12 @@ public class EvaluationRecord {
 	 * 4. Communication Skills
 	 * 5. Integrity to Company
 	 */
-	private int[] performance = new int[6];
+	private final int[] performance;
 	
 	/**
 	 * The year for this EvaluationRecord;
 	 */
-	private int year;
+	private final int year;
 
 	/**
 	 * Constructor, that creates an EvaluationRecord-Object with the given
@@ -29,6 +29,7 @@ public class EvaluationRecord {
 	 */
 	public EvaluationRecord(int[] performance, int year) {
 		this.year = year;
+		if (performance.length > 6) throw new IllegalArgumentException("Zu viele Performance-Einträge");
 		this.performance = performance;
 	}
 
