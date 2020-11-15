@@ -98,6 +98,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * 
 	 * @return This method returns a List of all SalesMan in the database.
 	 */
+	@Override
 	public List<SalesMan> getAllSalesMen() {
 		List<Document> d = salesmen.find().into(new ArrayList<Document>());
 		List<SalesMan> s = new ArrayList<SalesMan>();
@@ -117,6 +118,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * 
 	 * @return This method has no return-value.
 	 */
+	@Override
 	public void updateSalesMen(int sid, String key, String attribute) {
 		salesmen.findOneAndUpdate(eq("id", sid), new Document("$set", new Document(key, attribute)));
 	}
@@ -128,6 +130,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * 
 	 * @return This method has no return-value.
 	 */
+	@Override
 	public void deleteSalesMen(int sid) {
 		salesmen.findOneAndDelete(eq("id", sid));
 	}
@@ -180,6 +183,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * 
 	 * @return This method has no return-value.
 	 */
+	@Override
 	public void updateEvaluationRecord(int id, int year, String key, int attribute) {
 		salesmen.findOneAndUpdate(and(eq("id", id), eq("year", year)),
 				new Document("$set", new Document(key, attribute)));
@@ -193,6 +197,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * 
 	 * @return This method has no return-value.
 	 */
+	@Override
 	public void deleteEvaluationRecord(int sid, int year) {
 		records.findOneAndDelete(and(eq("id", sid), eq("year", year)));
 	}
