@@ -21,12 +21,12 @@ public class ManagePersonal implements ManagePersonalInterface {
 	/**
 	 * The MongoDB-Collection for the salesmen.
 	 */
-	private MongoCollection<Document> salesmen;
+	private final MongoCollection<Document> salesmen;
 
 	/**
 	 * The MongoDB-Collection for the personal records of every salesman.
 	 */
-	private MongoCollection<Document> records;
+	private final MongoCollection<Document> records;
 
 	/**
 	 * Constructor, that creates a ManagePersonal-Object with the given salesmen and
@@ -45,10 +45,9 @@ public class ManagePersonal implements ManagePersonalInterface {
 
 	/**
 	 * Inserts a new Salesman into the database.
-	 * 
+	 *
 	 * @param record The SalesMan that should be inserted into the database.
-	 * 
-	 * @return This method has no return-value.
+	 *
 	 */
 	@Override
 	public void createSalesMan(SalesMan record) {
@@ -84,11 +83,11 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 */
 	@Override
 	public List<SalesMan> querySalesMan(String attribute, String key) {
-		List<Document> d = salesmen.find(eq(key, attribute)).into(new ArrayList<Document>());
-		List<SalesMan> s = new ArrayList<SalesMan>();
-		for (int i = 0; i < d.size(); i++) {
-			s.add(new SalesMan(d.get(i).getString("firstname"), d.get(i).getString("lastname"),
-					d.get(i).getInteger("id")));
+		List<Document> d = salesmen.find(eq(key, attribute)).into(new ArrayList<>());
+		List<SalesMan> s = new ArrayList<>();
+		for (Document document : d) {
+			s.add(new SalesMan(document.getString("firstname"), document.getString("lastname"),
+					document.getInteger("id")));
 		}
 		return s;
 	}
@@ -100,11 +99,11 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 */
 	@Override
 	public List<SalesMan> getAllSalesMen() {
-		List<Document> d = salesmen.find().into(new ArrayList<Document>());
-		List<SalesMan> s = new ArrayList<SalesMan>();
-		for (int i = 0; i < d.size(); i++) {
-			s.add(new SalesMan(d.get(i).getString("firstname"), d.get(i).getString("lastname"),
-					d.get(i).getInteger("id")));
+		List<Document> d = salesmen.find().into(new ArrayList<>());
+		List<SalesMan> s = new ArrayList<>();
+		for (Document document : d) {
+			s.add(new SalesMan(document.getString("firstname"), document.getString("lastname"),
+					document.getInteger("id")));
 		}
 		return s;
 	}
@@ -115,8 +114,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * @param sid       The Id of the SalesMan that will be updated.
 	 * @param key       The key of the attribute that will be updated.
 	 * @param attribute The new value for the SalesMan.
-	 * 
-	 * @return This method has no return-value.
+	 *
 	 */
 	@Override
 	public void updateSalesMen(int sid, String key, String attribute) {
@@ -127,8 +125,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * Deletes the SalesMan with the given attribute.
 	 * 
 	 * @param sid The Id of the SalesMan that will be deleted.
-	 * 
-	 * @return This method has no return-value.
+	 *
 	 */
 	@Override
 	public void deleteSalesMen(int sid) {
@@ -140,8 +137,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * 
 	 * @param record The EvaluationRecord that should be inserted into the database.
 	 * @param sid    The Id of the SalesMan that received this EvaluationRecord.
-	 * 
-	 * @return This method has no return-value.
+	 *
 	 */
 	@Override
 	public void addPerformanceRecord(EvaluationRecord record, int sid) {
@@ -158,17 +154,17 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 */
 	@Override
 	public List<EvaluationRecord> readEvaluationRecords(int sid) {
-		List<EvaluationRecord> e = new ArrayList<EvaluationRecord>();
-		List<Document> d = records.find(eq("id", sid)).into(new ArrayList<Document>());
-		for (int i = 0; i < d.size(); i++) {
+		List<EvaluationRecord> e = new ArrayList<>();
+		List<Document> d = records.find(eq("id", sid)).into(new ArrayList<>());
+		for (Document document : d) {
 			int[] test = new int[6];
-			test[0] = d.get(i).getInteger("LC");
-			test[1] = d.get(i).getInteger("OtE");
-			test[2] = d.get(i).getInteger("SBtE");
-			test[3] = d.get(i).getInteger("AtC");
-			test[4] = d.get(i).getInteger("CS");
-			test[5] = d.get(i).getInteger("ItC");
-			e.add(new EvaluationRecord(test, d.get(i).getInteger("year")));
+			test[0] = document.getInteger("LC");
+			test[1] = document.getInteger("OtE");
+			test[2] = document.getInteger("SBtE");
+			test[3] = document.getInteger("AtC");
+			test[4] = document.getInteger("CS");
+			test[5] = document.getInteger("ItC");
+			e.add(new EvaluationRecord(test, document.getInteger("year")));
 		}
 		return e;
 	}
@@ -180,8 +176,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * @param year      The year of the SalesMan-Record that will be updated.
 	 * @param key       The key of the attribute that will be updated.
 	 * @param attribute The new value.
-	 * 
-	 * @return This method has no return-value.
+	 *
 	 */
 	@Override
 	public void updateEvaluationRecord(int id, int year, String key, int attribute) {
@@ -194,8 +189,7 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * 
 	 * @param sid  The Id of the SalesMan that EvaluationRecord will be deleted.
 	 * @param year The year of the EvaluationRecord will be deleted.
-	 * 
-	 * @return This method has no return-value.
+	 *
 	 */
 	@Override
 	public void deleteEvaluationRecord(int sid, int year) {
