@@ -20,8 +20,15 @@ public class SalesManRecord {
 
     public Document toDocument() {
     	Document d = new Document();
-		d.append("performance", this.perfromance.getPerformance());
+		d.append("LC", this.perfromance.getPerformance()[0]);
+		d.append("OtE", this.perfromance.getPerformance()[1]);
+		d.append("SBtE", this.perfromance.getPerformance()[2]);
+		d.append("AtC", this.perfromance.getPerformance()[3]);
+		d.append("CS", this.perfromance.getPerformance()[4]);
+		d.append("ItC", this.perfromance.getPerformance()[5]);
 		d.append("id", this.salesmanId);
+		int year = this.perfromance.getYear();
+		d.append("year", year);
     	return d;
     }
 

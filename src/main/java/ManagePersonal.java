@@ -1,3 +1,4 @@
+import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.util.ArrayList;
@@ -65,7 +66,10 @@ public class ManagePersonal implements ManagePersonalInterface {
 	@Override
 	public SalesMan readSalesMan(int sid) {
 		Document d = salesmen.find(eq("id", sid)).first();
-		return new SalesMan(d.getString("firstname"), d.getString("lastname"), d.getInteger("id"));
+		if (d != null) {
+			return new SalesMan(d.getString("firstname"), d.getString("lastname"), d.getInteger("id"));
+		}
+		return null;
 	}
 
 	/**
@@ -154,29 +158,31 @@ public class ManagePersonal implements ManagePersonalInterface {
 		List<EvaluationRecord> e = new ArrayList<EvaluationRecord>();
 		List<Document> d = records.find(eq("id", sid)).into(new ArrayList<Document>());
 		for (int i = 0; i < d.size(); i++) {
-			e.add(new EvaluationRecord(d.get(i).getString("performance")));
+			e.add(new EvaluationRecord((int[]) d.get(i).get("performance"), d.get(i).getInteger("year")));
 		}
 		return e;
 	}
-	
+
 	/**
 	 * Updates the EvaluationRecord with the given id attribute.
 	 * 
-	 * @param old       The attribute that will be updated.
+	 * @param id        The id of the SalesMan-Record that will be updated.
+	 * @param year      The year of the SalesMan-Record that will be updated.
 	 * @param key       The key of the attribute that will be updated.
 	 * @param attribute The new value.
 	 * 
 	 * @return This method has no return-value.
 	 */
-	public void updateEvaluationRecord(String old, String key, String attribute) {
-		salesmen.updateOne(eq(key, old), new Document("$set", new Document(key, attribute)));
+	public void updateEvaluationRecord(int id, int year, String key, int attribute) {
+		salesmen.findOneAndUpdate(and(eq("id", id), eq("year", year)), new Document("$set", new Document(key, attribute)));
 	}
 
 	/**
 	 * Deletes the SalesMan with the given attribute.
 	 * 
-	 * @param sid The Id of the SalesMan that EvaluationRecord will be deleted.
-	 * @param delete The String of the SalesMan that EvaluationRecord will be deleted.
+	 * @param sid    The Id of the SalesMan that EvaluationRecord will be deleted.
+	 * @param delete The String of the SalesMan that EvaluationRecord will be
+	 *               deleted.
 	 * 
 	 * @return This method has no return-value.
 	 */
