@@ -13,17 +13,19 @@ public class StaffDetails extends JFrame{
     private JButton saveButton;
     private JButton deleteRecordButton;
     private DefaultTableModel tm;
+    SalesMan salesman;
 
     /**
      * window for displaying details about a salesman
      * @param sm specifies the salesman, whose details are shown
      */
-    public StaffDetails(SalesMan sm){
-        super("Salesman - " + sm.getFirstname() + " " + sm.getLastname());
+    public StaffDetails(SalesMan sm, Overview parent){
+        super();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //close only this window
         this.setContentPane(detailsPanel);
-
         this.pack();
+
+
 
         tm = new DefaultTableModel(){
             public boolean isCellEditable(int row, int column){
@@ -40,17 +42,14 @@ public class StaffDetails extends JFrame{
         tm.addColumn("Integrity to Company");
         recordsTable.getTableHeader().resizeAndRepaint();
 
-        //filling in the information about the salesman:
-        id.setText(Integer.toString(sm.getId()));
-        firstname.setText(sm.getFirstname());
-        lastname.setText(sm.getLastname());
+        update(sm);
 
-        loadRecords(sm); //loading the evaluation records
+        StaffDetails current = this;
 
         addRecord.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //"Add Record" button pressed
-                JFrame addEvalFrame = new AddEvalRecord(sm);//creating window
+                JFrame addEvalFrame = new AddEvalRecord(salesman, current);//creating window
                 addEvalFrame.setVisible(true);
             }
         });
@@ -58,15 +57,16 @@ public class StaffDetails extends JFrame{
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //"Save" button pressed
-                System.out.println("updating");
-                Main.mP.updateSalesMen(sm.getId(), firstname.getText(), lastname.getText());
+                Main.mP.updateSalesMen(salesman.getId(), firstname.getText(), lastname.getText());
+                parent.loadStaff();
             }
         });
         deleteRecordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(recordsTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
-                    Main.mP.deleteEvaluationRecord(sm.getId(), Integer.parseInt(recordsTable.getValueAt(recordsTable.getSelectedRow(), 0).toString()));
+                    Main.mP.deleteEvaluationRecord(salesman.getId(), Integer.parseInt(recordsTable.getValueAt(recordsTable.getSelectedRow(), 0).toString()));
+                    update();
                 }
             }
         });
@@ -86,5 +86,26 @@ public class StaffDetails extends JFrame{
             //System.out.println(performance[0]);
             tm.addRow(new Object[]{record.getYear(), performance[0], performance[1], performance[2], performance[3], performance[4], performance[5]});
         }
+    }
+
+    /**
+     * refreshes the information in the window
+     */
+    public void update(){
+        update(Main.mP.readSalesMan(this.salesman.getId()));
+    }
+
+    /**
+     * refreshes the information in the window with the given salesman
+     * @param sm salesman
+     */
+    public void update(SalesMan sm){
+        this.salesman = sm;
+        this.setTitle("Salesman - " + this.salesman.getFirstname() + " " + this.salesman.getLastname());
+        //filling in the information about the salesman:
+        id.setText(Integer.toString(this.salesman.getId()));
+        firstname.setText(this.salesman.getFirstname());
+        lastname.setText(this.salesman.getLastname());
+        loadRecords(this.salesman); //loading the evaluation records
     }
 }

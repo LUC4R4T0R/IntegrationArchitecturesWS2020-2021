@@ -18,7 +18,7 @@ public class AddEvalRecord extends JFrame{
      * Form for adding a new evaluation record
      * @param sm specifies the salesman, who is assessed
      */
-    public AddEvalRecord(SalesMan sm){
+    public AddEvalRecord(SalesMan sm, StaffDetails parent){
         super("Add Record - " + sm.getFirstname() + " " + sm.getLastname()); //specify window title
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //only close this window
         this.setContentPane(addEvalPanel);
@@ -55,6 +55,7 @@ public class AddEvalRecord extends JFrame{
                             ),
                             sm.getId()
                     ); //save record
+                    parent.update();
                     kill(); //close form
                 }
             }

@@ -61,10 +61,12 @@ public class Overview extends JFrame{
             }
         });
 
+        Overview current = this;
+
         addSalesmanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //"Add Salesman" button pressed
-                JFrame addFrame = new AddSalesMan(); //create window for add form
+                JFrame addFrame = new AddSalesMan(current); //create window for add form
                 addFrame.setVisible(true);
             }
         });
@@ -74,6 +76,7 @@ public class Overview extends JFrame{
             public void actionPerformed(ActionEvent e) { //"Remove Salesman" button pressed
                 if(staffTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
                     Main.mP.deleteSalesMen(Integer.parseInt(staffTable.getValueAt(staffTable.getSelectedRow(), 0).toString()));
+                    loadStaff();
                 }
             }
         });
@@ -124,7 +127,7 @@ public class Overview extends JFrame{
      */
     public void openDetails(int id){
         SalesMan sm = Main.mP.readSalesMan(id); //get salesman fromDB
-        JFrame detailsFrame = new StaffDetails(sm); //create window
+        JFrame detailsFrame = new StaffDetails(sm, this); //create window
         detailsFrame.setVisible(true);
     }
 }

@@ -12,7 +12,7 @@ public class AddSalesMan extends JFrame{
     /**
      * Form for adding a new salesman
      */
-    public AddSalesMan(){
+    public AddSalesMan(Overview parent){
         super("Add Salesman"); //setting title
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //only close this window
         this.setContentPane(addPanel);
@@ -25,6 +25,7 @@ public class AddSalesMan extends JFrame{
             public void actionPerformed(ActionEvent e) {//"Add" button pressed
                 SalesMan newSalesMan = new SalesMan(firstname.getText(), lastname.getText(), Integer.parseInt(id.getText())); //create new salesman
                 Main.mP.createSalesMan(newSalesMan); //store salesman in DB
+                parent.loadStaff();
                 kill(); //close window
             }
         });
