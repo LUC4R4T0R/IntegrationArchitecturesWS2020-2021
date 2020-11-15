@@ -29,7 +29,13 @@ public class StaffDetails extends JFrame{
             }
         }; //make table read-only
         recordsTable.setModel(tm);
-        tm.addColumn("Value");
+        tm.addColumn("Year");
+        tm.addColumn("Leadership Competence");
+        tm.addColumn("Openness to Employee");
+        tm.addColumn("Social Behaviour to Employee");
+        tm.addColumn("Attitude towards Client");
+        tm.addColumn("Communication Skills");
+        tm.addColumn("Integrity to Company");
         recordsTable.getTableHeader().resizeAndRepaint();
 
         //filling in the information about the salesman:
@@ -56,8 +62,11 @@ public class StaffDetails extends JFrame{
         for (int i = tm.getRowCount() - 1; i >= 0; i--) { //first emptying the table
             tm.removeRow(i);
         }
+
         for(EvaluationRecord record : Main.mP.readEvaluationRecords(sm.getId())){ //iterating through the records to add them all
-            tm.addRow(new Object[]{record.getPerformance()});
+            int[] performance = record.getPerformance();
+            //System.out.println(performance[0]);
+            tm.addRow(new Object[]{record.getYear(), performance[0], performance[1], performance[2], performance[3], performance[4], performance[5]});
         }
     }
 }
