@@ -112,13 +112,14 @@ public class ManagePersonal implements ManagePersonalInterface {
 	 * Updates the SalesMan with the given id attribute.
 	 * 
 	 * @param sid       The Id of the SalesMan that will be updated.
-	 * @param key       The key of the attribute that will be updated.
-	 * @param attribute The new value for the SalesMan.
+	 * @param firstname       The update-value for the firstname.
+	 * @param lastname The update-value for the lastname.
 	 *
 	 */
 	@Override
-	public void updateSalesMen(int sid, String key, String attribute) {
-		salesmen.findOneAndUpdate(eq("id", sid), new Document("$set", new Document(key, attribute)));
+	public void updateSalesMen(int sid, String firstname, String lastname) {
+		salesmen.findOneAndUpdate(eq("id", sid), new Document("$set", new Document("firstname", firstname)));
+		salesmen.findOneAndUpdate(eq("id", sid), new Document("$set", new Document("lastname", lastname)));
 	}
 
 	/**

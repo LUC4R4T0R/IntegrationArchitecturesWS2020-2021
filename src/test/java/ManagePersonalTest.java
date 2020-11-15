@@ -104,7 +104,7 @@ class ManagePersonalTest {
 	@Test
 	public void updateSalesMenTest() {
 		SalesMan s5 = new SalesMan("test", "Brill", 1);
-		mp.updateSalesMen(1, "firstname", "test");
+		mp.updateSalesMen(1, "test", "Brill");
 		SalesMan s = mp.readSalesMan(1);
 		boolean a = s.equals(s5);
 		assertEquals(true, a);
