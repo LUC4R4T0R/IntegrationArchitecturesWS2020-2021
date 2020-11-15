@@ -62,6 +62,14 @@ public class StaffDetails extends JFrame{
                 Main.mP.updateSalesMen(sm.getId(), firstname.getText(), lastname.getText());
             }
         });
+        deleteRecordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(recordsTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
+                    Main.mP.deleteEvaluationRecord(sm.getId(), Integer.parseInt(recordsTable.getValueAt(recordsTable.getSelectedRow(), 0).toString()));
+                }
+            }
+        });
     }
 
     /**
