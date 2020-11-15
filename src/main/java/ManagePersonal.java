@@ -171,7 +171,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void updateEvaluationRecord(int id, int year, String key, int attribute) {
-        salesmen.findOneAndUpdate(and(eq("id", id), eq("year", year)),
+        records.findOneAndUpdate(and(eq("id", id), eq("year", year)),
                 new Document("$set", new Document(key, attribute)));
     }
 
