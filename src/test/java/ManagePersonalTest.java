@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 import org.bson.Document;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,10 +15,10 @@ import com.mongodb.client.MongoDatabase;
 
 class ManagePersonalTest {
 
-    private final MongoClient client = new MongoClient("localhost", 27017);
-    private final MongoDatabase supermongo = client.getDatabase("highperformance");
-    private MongoCollection<Document> salesmen = supermongo.getCollection("salesmen");
-    private MongoCollection<Document> records = supermongo.getCollection("records");
+    private static final MongoClient client = new MongoClient("localhost", 27017);
+    private static final MongoDatabase supermongo = client.getDatabase("highperformance");
+    private static MongoCollection<Document> salesmen = supermongo.getCollection("salesmen");
+    private static MongoCollection<Document> records = supermongo.getCollection("records");
 
     private final ManagePersonal mp = new ManagePersonal(salesmen, records);
 
@@ -28,18 +30,25 @@ class ManagePersonalTest {
     EvaluationRecord e2;
     EvaluationRecord e3;
 
+    @BeforeAll
+    static void init(){
+        salesmen = supermongo.getCollection("salesmen");
+        records = supermongo.getCollection("records");
+    }
+
+    static void cleanup(){
+        salesmen.drop();
+        records.drop();
+    }
+
+
+
 
     @BeforeEach
     void setUp1() {
         if (salesmen != null) {
-            salesmen.drop();
-        }
-        if (records != null) {
-            records.drop();
-        }
-        salesmen = supermongo.getCollection("salesmen");
-        records = supermongo.getCollection("records");
-
+            cleanup();
+         }
 
         s1 = new SalesMan("Jonas", "Brill", 1);
         s2 = new SalesMan("Luca", "Ringhausen", 2);
@@ -62,6 +71,11 @@ class ManagePersonalTest {
         records.insertOne(r2.toDocument());
         records.insertOne(r3.toDocument());
 
+    }
+
+    @AfterAll
+    static void delete(){
+        cleanup();
     }
 
     @Test
