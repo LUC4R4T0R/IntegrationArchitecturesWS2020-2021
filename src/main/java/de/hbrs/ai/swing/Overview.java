@@ -1,3 +1,7 @@
+package de.hbrs.ai.swing;
+
+import de.hbrs.ai.model.SalesMan;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -7,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
+import de.hbrs.ai.SwingUI;
 
 public class Overview extends JFrame{
     private JButton addSalesmanButton;
@@ -75,7 +80,7 @@ public class Overview extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) { //"Remove Salesman" button pressed
                 if(staffTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
-                    Main.mP.deleteSalesMen(Integer.parseInt(staffTable.getValueAt(staffTable.getSelectedRow(), 0).toString()));
+                    SwingUI.mP.deleteSalesMen(Integer.parseInt(staffTable.getValueAt(staffTable.getSelectedRow(), 0).toString()));
                     loadStaff();
                 }
             }
@@ -93,7 +98,7 @@ public class Overview extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {//"search" button pressed
                 if(!searchBar.getText().isBlank()){ //check if search bar is not blank
-                    displaySalesMen(Main.mP.querySalesMan(searchBar.getText(), (firstnameRadio.isSelected() ? "firstname" : "lastname"))); //search for salesman having this property
+                    displaySalesMen(SwingUI.mP.querySalesMan(searchBar.getText(), (firstnameRadio.isSelected() ? "firstname" : "lastname"))); //search for salesman having this property
                 }
             }
         });
@@ -118,7 +123,7 @@ public class Overview extends JFrame{
      * function for (re)loading all salesmen into the staff table
      */
     public void loadStaff(){
-        displaySalesMen(Main.mP.getAllSalesMen());
+        displaySalesMen(SwingUI.mP.getAllSalesMen());
     }
 
     /**
@@ -126,7 +131,7 @@ public class Overview extends JFrame{
      * @param id specifies the salesman, whose details are shown
      */
     public void openDetails(int id){
-        SalesMan sm = Main.mP.readSalesMan(id); //get salesman fromDB
+        SalesMan sm = SwingUI.mP.readSalesMan(id); //get salesman fromDB
         JFrame detailsFrame = new StaffDetails(sm, this); //create window
         detailsFrame.setVisible(true);
     }

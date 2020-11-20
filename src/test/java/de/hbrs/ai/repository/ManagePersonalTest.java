@@ -1,8 +1,14 @@
+package de.hbrs.ai.repository;
+
 import static com.mongodb.client.model.Filters.eq;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
+import de.hbrs.ai.model.EvaluationRecord;
+import de.hbrs.ai.model.SalesMan;
+import de.hbrs.ai.model.SalesManRecord;
+import de.hbrs.ai.repository.ManagePersonal;
 import org.bson.Document;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

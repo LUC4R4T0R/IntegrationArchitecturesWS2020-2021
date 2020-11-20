@@ -1,27 +1,29 @@
+package de.hbrs.ai.model;
+
 import org.bson.Document;
 
 /**
  * @author jbrill2s, lringh2s
  * <p>
- * Helper-class to insert a record and its the SalesMan-id into the records-collection.
+ * Helper-class to insert a record and its the de.hbrs.ai.model.SalesMan-id into the records-collection.
  */
 public class SalesManRecord {
 
     /**
-     * The id of the SalesMan, the record s about.
+     * The id of the de.hbrs.ai.model.SalesMan, the record s about.
      */
     private final int salesmanId;
 
     /**
-     * The performance-record for the SalesMan.
+     * The performance-record for the de.hbrs.ai.model.SalesMan.
      */
     private final EvaluationRecord perfromance;
 
     /**
-     * Constructor, that creates a SalesManRecord-Object with the given attributes.
+     * Constructor, that creates a de.hbrs.ai.model.SalesManRecord-Object with the given attributes.
      *
-     * @param salesmanId  The id of the SalesMan, the record s about
-     * @param perfromance The performance-record for the SalesMan.
+     * @param salesmanId  The id of the de.hbrs.ai.model.SalesMan, the record s about
+     * @param perfromance The performance-record for the de.hbrs.ai.model.SalesMan.
      */
     public SalesManRecord(int salesmanId, EvaluationRecord perfromance) {
         this.salesmanId = salesmanId;
@@ -29,7 +31,7 @@ public class SalesManRecord {
     }
 
     /**
-     * This method takes this SalesManRecord and puts its attributes into a Document.
+     * This method takes this de.hbrs.ai.model.SalesManRecord and puts its attributes into a Document.
      *
      * @return Returns the Document witch is build out of this SalesManRecords attributes.
      */

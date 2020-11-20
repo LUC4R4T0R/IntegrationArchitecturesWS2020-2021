@@ -1,7 +1,9 @@
+package de.hbrs.ai.model;
+
 /**
  * @author jbrill2s, lringh2s
  * <p>
- * Class that defines an EvaluationRecord.
+ * Class that defines an de.hbrs.ai.model.EvaluationRecord.
  */
 public class EvaluationRecord {
 
@@ -17,12 +19,12 @@ public class EvaluationRecord {
     private final int[] performance;
 
     /**
-     * The year for this EvaluationRecord;
+     * The year for this de.hbrs.ai.model.EvaluationRecord;
      */
     private final int year;
 
     /**
-     * Constructor, that creates an EvaluationRecord-Object with the given
+     * Constructor, that creates an de.hbrs.ai.model.EvaluationRecord-Object with the given
      * performance.
      */
     public EvaluationRecord(int[] performance, int year) {
@@ -32,7 +34,7 @@ public class EvaluationRecord {
     }
 
     /**
-     * Gets the evaluation of this EvaluationRecord.
+     * Gets the evaluation of this de.hbrs.ai.model.EvaluationRecord.
      *
      * @return Returns the performance-String.
      */
@@ -41,7 +43,7 @@ public class EvaluationRecord {
     }
 
     /**
-     * Gets the evaluation of this EvaluationRecord.
+     * Gets the evaluation of this de.hbrs.ai.model.EvaluationRecord.
      *
      * @return Returns the performance-String.
      */
@@ -50,9 +52,9 @@ public class EvaluationRecord {
     }
 
     /**
-     * Compares an EvaluationRecord with this one.
+     * Compares an de.hbrs.ai.model.EvaluationRecord with this one.
      *
-     * @param er The EvaluationRecord to compare with.
+     * @param er The de.hbrs.ai.model.EvaluationRecord to compare with.
      * @return Returns true if the two EvaluationRecords are equal and false if not.
      */
     public boolean equals(EvaluationRecord er) {

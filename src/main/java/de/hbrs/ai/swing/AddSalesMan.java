@@ -1,3 +1,8 @@
+package de.hbrs.ai.swing;
+
+import de.hbrs.ai.SwingUI;
+import de.hbrs.ai.model.SalesMan;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +29,7 @@ public class AddSalesMan extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {//"Add" button pressed
                 SalesMan newSalesMan = new SalesMan(firstname.getText(), lastname.getText(), Integer.parseInt(id.getText())); //create new salesman
-                Main.mP.createSalesMan(newSalesMan); //store salesman in DB
+                SwingUI.mP.createSalesMan(newSalesMan); //store salesman in DB
                 parent.loadStaff();
                 kill(); //close window
             }

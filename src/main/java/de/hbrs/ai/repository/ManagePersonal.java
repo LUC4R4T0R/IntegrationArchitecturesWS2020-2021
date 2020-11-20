@@ -1,9 +1,14 @@
+package de.hbrs.ai.repository;
+
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hbrs.ai.model.EvaluationRecord;
+import de.hbrs.ai.model.SalesMan;
+import de.hbrs.ai.model.SalesManRecord;
 import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
@@ -27,7 +32,7 @@ public class ManagePersonal implements ManagePersonalInterface {
     private final MongoCollection<Document> records;
 
     /**
-     * Constructor, that creates a ManagePersonal-Object with the given salesmen and
+     * Constructor, that creates a de.hbrs.ai.repository.ManagePersonal-Object with the given salesmen and
      * record MongoDB-Collection.
      */
     public ManagePersonal(MongoCollection<Document> salesmen, MongoCollection<Document> record) {
@@ -44,7 +49,7 @@ public class ManagePersonal implements ManagePersonalInterface {
     /**
      * Inserts a new Salesman into the database.
      *
-     * @param record The SalesMan that should be inserted into the database.
+     * @param record The de.hbrs.ai.model.SalesMan that should be inserted into the database.
      */
     @Override
     public void createSalesMan(SalesMan record) {
@@ -52,10 +57,10 @@ public class ManagePersonal implements ManagePersonalInterface {
     }
 
     /**
-     * Finds the SalesMan with the given Id.
+     * Finds the de.hbrs.ai.model.SalesMan with the given Id.
      *
-     * @param sid The Id of the SalesMan who the search is about.
-     * @return This method returns the SalesMan with the given ID if he exists. If
+     * @param sid The Id of the de.hbrs.ai.model.SalesMan who the search is about.
+     * @return This method returns the de.hbrs.ai.model.SalesMan with the given ID if he exists. If
      * he can be found in the database the return-value is null.
      */
     @Override
@@ -68,12 +73,12 @@ public class ManagePersonal implements ManagePersonalInterface {
     }
 
     /**
-     * Finds all SalesMan with the given attribute.
+     * Finds all de.hbrs.ai.model.SalesMan with the given attribute.
      *
-     * @param attribute The SalesMan-attribute that is searched for.
+     * @param attribute The de.hbrs.ai.model.SalesMan-attribute that is searched for.
      * @param key       The key of the attribute.
-     * @return This method returns a List of the found SalesMan with the given
-     * attribute. If there is no SalesMan with this attribute the
+     * @return This method returns a List of the found de.hbrs.ai.model.SalesMan with the given
+     * attribute. If there is no de.hbrs.ai.model.SalesMan with this attribute the
      * return-value is null.
      */
     @Override
@@ -88,9 +93,9 @@ public class ManagePersonal implements ManagePersonalInterface {
     }
 
     /**
-     * Finds and returns all SalesMan in the database.
+     * Finds and returns all de.hbrs.ai.model.SalesMan in the database.
      *
-     * @return This method returns a List of all SalesMan in the database.
+     * @return This method returns a List of all de.hbrs.ai.model.SalesMan in the database.
      */
     @Override
     public List<SalesMan> getAllSalesMen() {
@@ -104,9 +109,9 @@ public class ManagePersonal implements ManagePersonalInterface {
     }
 
     /**
-     * Updates the SalesMan with the given id attribute.
+     * Updates the de.hbrs.ai.model.SalesMan with the given id attribute.
      *
-     * @param sid       The Id of the SalesMan that will be updated.
+     * @param sid       The Id of the de.hbrs.ai.model.SalesMan that will be updated.
      * @param firstname The update-value for the firstname.
      * @param lastname  The update-value for the lastname.
      */
@@ -117,9 +122,9 @@ public class ManagePersonal implements ManagePersonalInterface {
     }
 
     /**
-     * Deletes the SalesMan with the given attribute.
+     * Deletes the de.hbrs.ai.model.SalesMan with the given attribute.
      *
-     * @param sid The Id of the SalesMan that will be deleted.
+     * @param sid The Id of the de.hbrs.ai.model.SalesMan that will be deleted.
      */
     @Override
     public void deleteSalesMen(int sid) {
@@ -129,8 +134,8 @@ public class ManagePersonal implements ManagePersonalInterface {
     /**
      * Inserts a new PerformanceRecord into the database.
      *
-     * @param record The EvaluationRecord that should be inserted into the database.
-     * @param sid    The Id of the SalesMan that received this EvaluationRecord.
+     * @param record The de.hbrs.ai.model.EvaluationRecord that should be inserted into the database.
+     * @param sid    The Id of the de.hbrs.ai.model.SalesMan that received this de.hbrs.ai.model.EvaluationRecord.
      */
     @Override
     public void addPerformanceRecord(EvaluationRecord record, int sid) {
@@ -140,8 +145,8 @@ public class ManagePersonal implements ManagePersonalInterface {
     /**
      * Finds all PerformanceRecords with the given attribute.
      *
-     * @param sid The Id of the SalesMan who the PerformanceRecord search is about.
-     * @return This method returns a List of the found SalesMan-PerformanceRecords
+     * @param sid The Id of the de.hbrs.ai.model.SalesMan who the PerformanceRecord search is about.
+     * @return This method returns a List of the found de.hbrs.ai.model.SalesMan-PerformanceRecords
      * with the given attribute. If there is none, the return-value is null.
      */
     @Override
@@ -162,10 +167,10 @@ public class ManagePersonal implements ManagePersonalInterface {
     }
 
     /**
-     * Updates the EvaluationRecord with the given id attribute.
+     * Updates the de.hbrs.ai.model.EvaluationRecord with the given id attribute.
      *
-     * @param id        The id of the SalesMan-Record that will be updated.
-     * @param year      The year of the SalesMan-Record that will be updated.
+     * @param id        The id of the de.hbrs.ai.model.SalesMan-Record that will be updated.
+     * @param year      The year of the de.hbrs.ai.model.SalesMan-Record that will be updated.
      * @param key       The key of the attribute that will be updated.
      * @param attribute The new value.
      */
@@ -176,10 +181,10 @@ public class ManagePersonal implements ManagePersonalInterface {
     }
 
     /**
-     * Deletes the SalesMan with the given attribute.
+     * Deletes the de.hbrs.ai.model.SalesMan with the given attribute.
      *
-     * @param sid  The Id of the SalesMan that EvaluationRecord will be deleted.
-     * @param year The year of the EvaluationRecord will be deleted.
+     * @param sid  The Id of the de.hbrs.ai.model.SalesMan that de.hbrs.ai.model.EvaluationRecord will be deleted.
+     * @param year The year of the de.hbrs.ai.model.EvaluationRecord will be deleted.
      */
     @Override
     public void deleteEvaluationRecord(int sid, int year) {

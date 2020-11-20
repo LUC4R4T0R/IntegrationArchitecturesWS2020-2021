@@ -1,3 +1,8 @@
+package de.hbrs.ai.repository;
+
+import de.hbrs.ai.model.EvaluationRecord;
+import de.hbrs.ai.model.SalesMan;
+
 import java.util.List;
 
 public interface ManagePersonalInterface {

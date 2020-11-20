@@ -1,3 +1,9 @@
+package de.hbrs.ai.swing;
+
+import de.hbrs.ai.SwingUI;
+import de.hbrs.ai.model.EvaluationRecord;
+import de.hbrs.ai.model.SalesMan;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +47,7 @@ public class AddEvalRecord extends JFrame{
                             || yearInput.getText().isBlank()
                         )
                 ){
-                    Main.mP.addPerformanceRecord(
+                    SwingUI.mP.addPerformanceRecord(
                             new EvaluationRecord(
                                     new int[]{
                                         Integer.parseInt(leadershipInput.getText()),

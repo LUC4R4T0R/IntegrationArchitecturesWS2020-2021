@@ -1,3 +1,9 @@
+package de.hbrs.ai.swing;
+
+import de.hbrs.ai.SwingUI;
+import de.hbrs.ai.model.EvaluationRecord;
+import de.hbrs.ai.model.SalesMan;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -57,7 +63,7 @@ public class StaffDetails extends JFrame{
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //"Save" button pressed
-                Main.mP.updateSalesMen(salesman.getId(), firstname.getText(), lastname.getText());
+                SwingUI.mP.updateSalesMen(salesman.getId(), firstname.getText(), lastname.getText());
                 parent.loadStaff();
             }
         });
@@ -65,7 +71,7 @@ public class StaffDetails extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(recordsTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
-                    Main.mP.deleteEvaluationRecord(salesman.getId(), Integer.parseInt(recordsTable.getValueAt(recordsTable.getSelectedRow(), 0).toString()));
+                    SwingUI.mP.deleteEvaluationRecord(salesman.getId(), Integer.parseInt(recordsTable.getValueAt(recordsTable.getSelectedRow(), 0).toString()));
                     update();
                 }
             }
@@ -81,7 +87,7 @@ public class StaffDetails extends JFrame{
             tm.removeRow(i);
         }
 
-        for(EvaluationRecord record : Main.mP.readEvaluationRecords(sm.getId())){ //iterating through the records to add them all
+        for(EvaluationRecord record : SwingUI.mP.readEvaluationRecords(sm.getId())){ //iterating through the records to add them all
             int[] performance = record.getPerformance();
             //System.out.println(performance[0]);
             tm.addRow(new Object[]{record.getYear(), performance[0], performance[1], performance[2], performance[3], performance[4], performance[5]});
@@ -92,7 +98,7 @@ public class StaffDetails extends JFrame{
      * refreshes the information in the window
      */
     public void update(){
-        update(Main.mP.readSalesMan(this.salesman.getId()));
+        update(SwingUI.mP.readSalesMan(this.salesman.getId()));
     }
 
     /**
