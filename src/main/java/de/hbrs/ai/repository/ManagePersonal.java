@@ -1,19 +1,17 @@
 package de.hbrs.ai.repository;
 
-import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.eq;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
+import com.mongodb.client.MongoCollection;
 import de.hbrs.ai.model.EvaluationRecord;
 import de.hbrs.ai.model.SalesMan;
 import de.hbrs.ai.model.SalesManRecord;
 import org.bson.Document;
 
-import com.mongodb.client.MongoCollection;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
 
 /**
  * @author jbrill2s, lringh2s
@@ -55,6 +53,9 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void createSalesMan(SalesMan record) {
+        if (readSalesMan(record.getId()) != null){
+            throw new IllegalArgumentException("Id existiert bereits");
+        }
         salesmen.insertOne(record.toDocument());
     }
 
