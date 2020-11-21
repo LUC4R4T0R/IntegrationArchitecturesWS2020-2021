@@ -7,9 +7,9 @@ import de.hbrs.ai.model.EvaluationRecord;
 import de.hbrs.ai.model.SalesMan;
 import de.hbrs.ai.model.SalesManRecord;
 import org.bson.Document;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.event.annotation.AfterTestClass;
 
 import java.util.List;
 
@@ -63,8 +63,8 @@ class ManagePersonalTest {
 
     }
 
-    @AfterTestClass
-    void delete(){
+    @AfterAll
+    static void delete(){
         cleanup();
     }
 
