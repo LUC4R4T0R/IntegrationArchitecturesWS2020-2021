@@ -4,6 +4,8 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import de.hbrs.ai.model.EvaluationRecord;
@@ -93,7 +95,7 @@ public class ManagePersonal implements ManagePersonalInterface {
     }
 
     /**
-     * Finds and returns all salesman in the database.
+     * Finds, orders and returns all salesman in the database.
      *
      * @return This method returns a List of all salesman in the database.
      */
@@ -105,6 +107,7 @@ public class ManagePersonal implements ManagePersonalInterface {
             s.add(new SalesMan(document.getString("firstname"), document.getString("lastname"),
                     document.getInteger("id")));
         }
+        s.sort(Comparator.comparing(SalesMan::getId));
         return s;
     }
 
