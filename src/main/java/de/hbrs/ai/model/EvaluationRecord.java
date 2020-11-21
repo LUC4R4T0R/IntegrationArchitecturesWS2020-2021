@@ -3,7 +3,7 @@ package de.hbrs.ai.model;
 /**
  * @author jbrill2s, lringh2s
  * <p>
- * Class that defines an de.hbrs.ai.model.EvaluationRecord.
+ * Class that defines an evaluationrecord.
  */
 public class EvaluationRecord {
 
@@ -19,12 +19,12 @@ public class EvaluationRecord {
     private final int[] performance;
 
     /**
-     * The year for this de.hbrs.ai.model.EvaluationRecord;
+     * The year for this evaluationrecord;
      */
     private final int year;
 
     /**
-     * Constructor, that creates an de.hbrs.ai.model.EvaluationRecord-Object with the given
+     * Constructor, that creates an evaluationrecord-Object with the given
      * performance.
      */
     public EvaluationRecord(int[] performance, int year) {
@@ -34,7 +34,7 @@ public class EvaluationRecord {
     }
 
     /**
-     * Gets the evaluation of this de.hbrs.ai.model.EvaluationRecord.
+     * Gets the evaluation of this evaluationrecord.
      *
      * @return Returns the performance-String.
      */
@@ -43,7 +43,7 @@ public class EvaluationRecord {
     }
 
     /**
-     * Gets the evaluation of this de.hbrs.ai.model.EvaluationRecord.
+     * Gets the evaluation of this evaluationrecord.
      *
      * @return Returns the performance-String.
      */
@@ -52,10 +52,10 @@ public class EvaluationRecord {
     }
 
     /**
-     * Compares an de.hbrs.ai.model.EvaluationRecord with this one.
+     * Compares an evaluationrecord with this one.
      *
-     * @param er The de.hbrs.ai.model.EvaluationRecord to compare with.
-     * @return Returns true if the two EvaluationRecords are equal and false if not.
+     * @param er The evaluationrecord to compare with.
+     * @return Returns true if the two evaluationrecords are equal and false if not.
      */
     public boolean equals(EvaluationRecord er) {
         return this.year == er.getYear() && this.performance[0] == er.getPerformance()[0] && this.performance[1] == er.getPerformance()[1] && this.performance[2] == er.getPerformance()[2] && this.performance[3] == er.getPerformance()[3] && this.performance[4] == er.getPerformance()[4] && this.performance[5] == er.getPerformance()[5];

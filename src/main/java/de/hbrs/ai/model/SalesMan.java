@@ -18,7 +18,7 @@ public class SalesMan {
     private final String lastname;
 
     /**
-     * Constructor, that creates a de.hbrs.ai.model.SalesMan-Object with the given attributes.
+     * Constructor, that creates a salesman-Object with the given attributes.
      */
     public SalesMan(String firstname, String lastname, int id) {
         this.firstname = firstname;
@@ -27,7 +27,7 @@ public class SalesMan {
     }
 
     /**
-     * Returns the id of this de.hbrs.ai.model.SalesMan.
+     * Returns the id of this salesman.
      *
      * @return This method has no return-value.
      */
@@ -36,25 +36,25 @@ public class SalesMan {
     }
 
     /**
-     * Sets the id of this de.hbrs.ai.model.SalesMan.
+     * Sets the id of this salesman.
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * Returns the firstname of this de.hbrs.ai.model.SalesMan.
+     * Returns the firstname of this salesman.
      *
-     * @return Returns the firstname of this de.hbrs.ai.model.SalesMan.
+     * @return Returns the firstname of this salesman.
      */
     public String getFirstname() {
         return firstname;
     }
 
     /**
-     * Returns the lastname of this de.hbrs.ai.model.SalesMan.
+     * Returns the lastname of this salesman.
      *
-     * @return Returns the lastname of this de.hbrs.ai.model.SalesMan.
+     * @return Returns the lastname of this salesman.
      */
     public String getLastname() {
         return lastname;
@@ -62,18 +62,18 @@ public class SalesMan {
 
 
     /**
-     * Method to display a de.hbrs.ai.model.SalesMan cleanly.
+     * Method to display a salesman cleanly.
      *
-     * @return Returns a readable String that describes the de.hbrs.ai.model.SalesMan.
+     * @return Returns a readable String that describes the salesmann.
      */
     public String toString() {
         return id + ": " + firstname + " " + lastname;
     }
 
     /**
-     * This method takes this de.hbrs.ai.model.SalesMan and puts its attributes into a Document.
+     * This method takes this salesman and puts its attributes into a Document.
      *
-     * @return Returns the Document witch is build out of this SalesMans attributes.
+     * @return Returns the Document witch is build out of this salesman attributes.
      */
     public Document toDocument() {
         Document d = new Document();
@@ -84,10 +84,10 @@ public class SalesMan {
     }
 
     /**
-     * Compares this de.hbrs.ai.model.SalesMan to the given one.
+     * Compares this salesman to the given one.
      *
-     * @param s The de.hbrs.ai.model.SalesMan to compare with.
-     * @return Returns true if the SalesMen are equal and false if not.
+     * @param s The dsalesman to compare with.
+     * @return Returns true if the salesman are equal and false if not.
      */
     public boolean equals(SalesMan s) {
         return this.lastname.equals(s.getLastname()) && this.firstname.equals(s.getFirstname()) && this.id == s.getId();
