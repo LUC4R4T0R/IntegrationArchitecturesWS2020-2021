@@ -97,7 +97,7 @@ public class ManagePersonal implements ManagePersonalInterface {
     /**
      * Finds, orders and returns all salesman in the database.
      *
-     * @return This method returns a List of all salesman in the database.
+     * @return This method returns an ordered-List of all salesman in the database.
      */
     @Override
     public List<SalesMan> getAllSalesMen() {
@@ -150,7 +150,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      * Finds all PerformanceRecords with the given attribute.
      *
      * @param sid The Id of the salesman who the PerformanceRecord search is about.
-     * @return This method returns a List of the found salesman-PerformanceRecords
+     * @return This method returns an ordered-List of the found salesman-PerformanceRecords
      * with the given attribute. If there is none, the return-value is null.
      */
     @Override
@@ -167,6 +167,7 @@ public class ManagePersonal implements ManagePersonalInterface {
             test[5] = document.getInteger("ItC");
             e.add(new EvaluationRecord(test, document.getInteger("year")));
         }
+        e.sort(Comparator.comparing(EvaluationRecord::getYear));
         return e;
     }
 
