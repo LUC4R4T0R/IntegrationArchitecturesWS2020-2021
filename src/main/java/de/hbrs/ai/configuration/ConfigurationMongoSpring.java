@@ -12,16 +12,11 @@ import com.mongodb.MongoClient;
 public class ConfigurationMongoSpring {
 
     @Bean
-    public MongoDatabase mongoDatabase() {
+    public ManagePersonal managePersonal() {
         MongoClient client = new com.mongodb.MongoClient("localhost", 27017);
         MongoDatabase supermongo = client.getDatabase("highperformance");
-        return supermongo;
-    }
-
-    @Bean
-    public ManagePersonal managePersonal(MongoDatabase db) {
-        MongoCollection<Document> salesmanCollection = db.getCollection("salesmen");
-        MongoCollection<Document> recordsCollection = db.getCollection("records");
+        MongoCollection<Document> salesmanCollection = supermongo.getCollection("salesmen");
+        MongoCollection<Document> recordsCollection = supermongo.getCollection("records");
         return new ManagePersonal(salesmanCollection, recordsCollection);
     }
 }
