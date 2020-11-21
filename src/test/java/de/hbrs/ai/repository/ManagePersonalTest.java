@@ -1,28 +1,25 @@
 package de.hbrs.ai.repository;
 
-import static com.mongodb.client.model.Filters.eq;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
-
-import de.hbrs.ai.model.EvaluationRecord;
-import de.hbrs.ai.model.SalesMan;
-import de.hbrs.ai.model.SalesManRecord;
-import de.hbrs.ai.repository.ManagePersonal;
-import org.bson.Document;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import de.hbrs.ai.model.EvaluationRecord;
+import de.hbrs.ai.model.SalesMan;
+import de.hbrs.ai.model.SalesManRecord;
+import org.bson.Document;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.context.event.annotation.AfterTestClass;
+
+import java.util.List;
+
+import static com.mongodb.client.model.Filters.eq;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ManagePersonalTest {
 
     private static final MongoClient client = new MongoClient("localhost", 27017);
-    private static final MongoDatabase supermongo = client.getDatabase("highperformance");
+    private static final MongoDatabase supermongo = client.getDatabase("TestDatabase");
     private static MongoCollection<Document> salesmen = supermongo.getCollection("salesmen");
     private static MongoCollection<Document> records = supermongo.getCollection("records");
 
@@ -36,25 +33,12 @@ class ManagePersonalTest {
     EvaluationRecord e2;
     EvaluationRecord e3;
 
-    @BeforeAll
-    static void init(){
-        salesmen = supermongo.getCollection("salesmen");
-        records = supermongo.getCollection("records");
-    }
-
-    static void cleanup(){
-        salesmen.drop();
-        records.drop();
-    }
-
-
-
 
     @BeforeEach
     void setUp1() {
-        if (salesmen != null) {
-            cleanup();
-         }
+        cleanup();
+        salesmen = supermongo.getCollection("salesmen");
+        records = supermongo.getCollection("records");
 
         s1 = new SalesMan("Jonas", "Brill", 1);
         s2 = new SalesMan("Luca", "Ringhausen", 2);
@@ -79,11 +63,21 @@ class ManagePersonalTest {
 
     }
 
-    @AfterAll
-    static void delete(){
+    @AfterTestClass
+    void delete(){
         cleanup();
     }
 
+    static void cleanup(){
+        salesmen.drop();
+        records.drop();
+    }
+
+
+    /*
+                                                                          start of Test
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
     @Test
     void createSalesManTest() {
         SalesMan s4 = new SalesMan("Jonas", "Brill", 4);
