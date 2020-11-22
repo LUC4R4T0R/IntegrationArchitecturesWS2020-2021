@@ -63,7 +63,7 @@ public class StaffDetails extends JFrame{
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //"Save" button pressed
-                SwingUI.mP.updateSalesMen(salesman.getId(), firstname.getText(), lastname.getText());
+                //ToDo SwingUI.mP.updateSalesMen(salesman.getId(), firstname.getText(), lastname.getText());
                 parent.loadStaff();
             }
         });
@@ -87,11 +87,12 @@ public class StaffDetails extends JFrame{
             tm.removeRow(i);
         }
 
+        /* toDO
         for(EvaluationRecord record : SwingUI.mP.readEvaluationRecords(sm.getId())){ //iterating through the records to add them all
             int[] performance = record.getPerformance();
             //System.out.println(performance[0]);
             tm.addRow(new Object[]{record.getYear(), performance[0], performance[1], performance[2], performance[3], performance[4], performance[5]});
-        }
+        }*/
     }
 
     /**

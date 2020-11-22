@@ -47,7 +47,7 @@ public class AddEvalRecord extends JFrame{
                             || yearInput.getText().isBlank()
                         )
                 ){
-                    SwingUI.mP.addPerformanceRecord(
+                    /*ToDO SwingUI.mP.addPerformanceRecord(
                             new EvaluationRecord(
                                     new int[]{
                                         Integer.parseInt(leadershipInput.getText()),
@@ -61,6 +61,7 @@ public class AddEvalRecord extends JFrame{
                             ),
                             sm.getId()
                     ); //save record
+                    */
                     parent.update();
                     kill(); //close form
                 }
