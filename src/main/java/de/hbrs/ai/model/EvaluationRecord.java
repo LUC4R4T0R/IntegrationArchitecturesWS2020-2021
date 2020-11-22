@@ -30,7 +30,7 @@ public class EvaluationRecord {
      * Default constructor
      */
     public EvaluationRecord(){
-
+        this.performance = new ArrayList<>();
     }
 
     /**

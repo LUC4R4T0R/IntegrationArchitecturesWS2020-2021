@@ -69,6 +69,9 @@ public class ManagePersonal implements ManagePersonalInterface {
     @Override
     public SalesMan readSalesMan(int sid) {
         SalesMan s = salesmen.find(eq("_id", sid)).first();
+        if(s == null) {
+            return null;
+        }
         return s;
     }
 
