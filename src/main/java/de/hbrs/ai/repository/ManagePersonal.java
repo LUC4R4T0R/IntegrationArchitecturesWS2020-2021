@@ -144,7 +144,7 @@ public class ManagePersonal implements ManagePersonalInterface {
         List<SalesManRecord> d = records.find(eq("salesmanId", sid)).into(new ArrayList<>());
 
         for (SalesManRecord salesManRecord : d) {
-            e.add(salesManRecord.getPerfromance());
+            e.add(salesManRecord.getPerformance());
         }
 
         e.sort(Comparator.comparing(EvaluationRecord::getYear));
@@ -158,7 +158,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void updateEvaluationRecord(SalesManRecord srecord) {
-        records.findOneAndReplace(and(eq("salesmanId", srecord.getSalesmanId()), eq("year", srecord.getPerfromance().getYear())), srecord);
+        records.findOneAndReplace(and(eq("salesmanId", srecord.getSalesmanId()), eq("performance.year", srecord.getPerformance().getYear())), srecord);
     }
 
     /**
@@ -169,6 +169,6 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void deleteEvaluationRecord(int sid, int year) {
-        records.findOneAndDelete(and(eq("salesmanId", sid), eq("year", year)));
+        records.findOneAndDelete(and(eq("salesmanId", sid), eq("performance.year", year)));
     }
 }

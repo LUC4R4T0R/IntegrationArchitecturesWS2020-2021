@@ -17,17 +17,17 @@ public class SalesManRecord {
     /**
      * The performance-record for the salesman.
      */
-    private EvaluationRecord perfromance;
+    private EvaluationRecord performance;
 
     /**
      * Constructor, that creates a salesman-Object with the given attributes.
      *
      * @param salesmanId  The id of the salesman, the record s about
-     * @param perfromance The performance-record for the salesman.
+     * @param performance The performance-record for the salesman.
      */
-    public SalesManRecord(int salesmanId, EvaluationRecord perfromance) {
+    public SalesManRecord(int salesmanId, EvaluationRecord performance) {
         this.salesmanId = salesmanId;
-        this.perfromance = perfromance;
+        this.performance = performance;
     }
 
     /**
@@ -37,16 +37,16 @@ public class SalesManRecord {
 
     }
 
-    public EvaluationRecord getPerfromance() {
-        return perfromance;
+    public EvaluationRecord getPerformance() {
+        return performance;
     }
 
     public int getSalesmanId() {
         return salesmanId;
     }
 
-    public void setPerfromance(EvaluationRecord perfromance) {
-        this.perfromance = perfromance;
+    public void setPerformance(EvaluationRecord performance) {
+        this.performance = performance;
     }
 
     public void setSalesmanId(int salesmanId) {
