@@ -12,12 +12,12 @@ public class SalesManRecord {
     /**
      * The id of the salesman, the record s about.
      */
-    private final int salesmanId;
+    private int salesmanId;
 
     /**
      * The performance-record for the salesman.
      */
-    private final EvaluationRecord perfromance;
+    private EvaluationRecord perfromance;
 
     /**
      * Constructor, that creates a salesman-Object with the given attributes.
@@ -31,22 +31,26 @@ public class SalesManRecord {
     }
 
     /**
-     * This method takes this salesman and puts its attributes into a Document.
-     *
-     * @return Returns the Document witch is build out of this SalesManRecords attributes.
+     * Default constructor.
      */
-    public Document toDocument() {
-        Document d = new Document();
-        d.append("LC", this.perfromance.getPerformance()[0]);
-        d.append("OtE", this.perfromance.getPerformance()[1]);
-        d.append("SBtE", this.perfromance.getPerformance()[2]);
-        d.append("AtC", this.perfromance.getPerformance()[3]);
-        d.append("CS", this.perfromance.getPerformance()[4]);
-        d.append("ItC", this.perfromance.getPerformance()[5]);
-        d.append("id", this.salesmanId);
-        int year = this.perfromance.getYear();
-        d.append("year", year);
-        return d;
+    public SalesManRecord(){
+
     }
 
+    public EvaluationRecord getPerfromance() {
+        return perfromance;
+    }
+
+    public int getSalesmanId() {
+        return salesmanId;
+    }
+
+    public void setPerfromance(EvaluationRecord perfromance) {
+        this.perfromance = perfromance;
+    }
+
+    public void setSalesmanId(int salesmanId) {
+        this.salesmanId = salesmanId;
+    }
 }
+

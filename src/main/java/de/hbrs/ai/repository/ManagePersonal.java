@@ -24,18 +24,18 @@ public class ManagePersonal implements ManagePersonalInterface {
     /**
      * The MongoDB-Collection for the salesmen.
      */
-    private final MongoCollection<Document> salesmen;
+    private final MongoCollection<SalesMan> salesmen;
 
     /**
      * The MongoDB-Collection for the personal records of every salesman.
      */
-    private final MongoCollection<Document> records;
+    private final MongoCollection<SalesManRecord> records;
 
     /**
      * Constructor, that creates a ManagePersonal-Object with the given salesmen and
      * record MongoDB-Collection.
      */
-    public ManagePersonal(MongoCollection<Document> salesmen, MongoCollection<Document> record) {
+    public ManagePersonal(MongoCollection<SalesMan> salesmen, MongoCollection<SalesManRecord> record) {
         if (salesmen == null) {
             throw new IllegalArgumentException("Salesmen required");
         }
@@ -56,7 +56,7 @@ public class ManagePersonal implements ManagePersonalInterface {
         if (readSalesMan(record.getId()) != null){
             throw new IllegalArgumentException("Id existiert bereits");
         }
-        salesmen.insertOne(record.toDocument());
+        salesmen.insertOne(record);
     }
 
     /**
@@ -68,11 +68,8 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public SalesMan readSalesMan(int sid) {
-        Document d = salesmen.find(eq("id", sid)).first();
-        if (d != null) {
-            return new SalesMan(d.getString("firstname"), d.getString("lastname"), d.getInteger("id"));
-        }
-        return null;
+        SalesMan s = salesmen.find(eq("_id", sid)).first();
+        return s;
     }
 
     /**
@@ -86,12 +83,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public List<SalesMan> querySalesMan(String attribute, String key) {
-        List<Document> d = salesmen.find(eq(key, attribute)).into(new ArrayList<>());
-        List<SalesMan> s = new ArrayList<>();
-        for (Document document : d) {
-            s.add(new SalesMan(document.getString("firstname"), document.getString("lastname"),
-                    document.getInteger("id")));
-        }
+        List<SalesMan> s = salesmen.find(eq(key, attribute)).into(new ArrayList<>());
         return s;
     }
 
@@ -102,12 +94,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public List<SalesMan> getAllSalesMen() {
-        List<Document> d = salesmen.find().into(new ArrayList<>());
-        List<SalesMan> s = new ArrayList<>();
-        for (Document document : d) {
-            s.add(new SalesMan(document.getString("firstname"), document.getString("lastname"),
-                    document.getInteger("id")));
-        }
+        List<SalesMan> s = salesmen.find().into(new ArrayList<>());
         s.sort(Comparator.comparing(SalesMan::getId));
         return s;
     }
@@ -115,14 +102,11 @@ public class ManagePersonal implements ManagePersonalInterface {
     /**
      * Updates the salesman with the given id attribute.
      *
-     * @param sid       The Id of the salesman that will be updated.
-     * @param firstname The update-value for the firstname.
-     * @param lastname  The update-value for the lastname.
+     * @param s The updated salesman.
      */
     @Override
-    public void updateSalesMen(int sid, String firstname, String lastname) {
-        salesmen.findOneAndUpdate(eq("id", sid), new Document("$set", new Document("firstname", firstname)));
-        salesmen.findOneAndUpdate(eq("id", sid), new Document("$set", new Document("lastname", lastname)));
+    public void updateSalesMen(SalesMan s) {
+        salesmen.findOneAndReplace(eq("_id", s.getId()), s);
     }
 
     /**
@@ -132,8 +116,8 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void deleteSalesMen(int sid) {
-        salesmen.findOneAndDelete(eq("id", sid));
-        records.deleteMany(eq("id",sid));
+        salesmen.findOneAndDelete(eq("_id", sid));
+        records.deleteMany(eq("_id",sid));
     }
 
     /**
@@ -144,7 +128,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void addPerformanceRecord(EvaluationRecord record, int sid) {
-        records.insertOne(new SalesManRecord(sid, record).toDocument());
+        records.insertOne(new SalesManRecord(sid, record));
     }
 
     /**
@@ -157,17 +141,12 @@ public class ManagePersonal implements ManagePersonalInterface {
     @Override
     public List<EvaluationRecord> readEvaluationRecords(int sid) {
         List<EvaluationRecord> e = new ArrayList<>();
-        List<Document> d = records.find(eq("id", sid)).into(new ArrayList<>());
-        for (Document document : d) {
-            int[] test = new int[6];
-            test[0] = document.getInteger("LC");
-            test[1] = document.getInteger("OtE");
-            test[2] = document.getInteger("SBtE");
-            test[3] = document.getInteger("AtC");
-            test[4] = document.getInteger("CS");
-            test[5] = document.getInteger("ItC");
-            e.add(new EvaluationRecord(test, document.getInteger("year")));
+        List<SalesManRecord> d = records.find(eq("salesmanId", sid)).into(new ArrayList<>());
+
+        for (SalesManRecord salesManRecord : d) {
+            e.add(salesManRecord.getPerfromance());
         }
+
         e.sort(Comparator.comparing(EvaluationRecord::getYear));
         return e;
     }
@@ -175,15 +154,11 @@ public class ManagePersonal implements ManagePersonalInterface {
     /**
      * Updates the evaluationrecord with the given id attribute.
      *
-     * @param id        The id of the salesman-Record that will be updated.
-     * @param year      The year of the salesman-Record that will be updated.
-     * @param key       The key of the attribute that will be updated.
-     * @param attribute The new value.
+     * @param srecord   The updated salesman-Record.
      */
     @Override
-    public void updateEvaluationRecord(int id, int year, String key, int attribute) {
-        records.findOneAndUpdate(and(eq("id", id), eq("year", year)),
-                new Document("$set", new Document(key, attribute)));
+    public void updateEvaluationRecord(SalesManRecord srecord) {
+        records.findOneAndReplace(and(eq("salesmanId", srecord.getSalesmanId()), eq("year", srecord.getPerfromance().getYear())), srecord);
     }
 
     /**
@@ -194,6 +169,6 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void deleteEvaluationRecord(int sid, int year) {
-        records.findOneAndDelete(and(eq("id", sid), eq("year", year)));
+        records.findOneAndDelete(and(eq("salesmanId", sid), eq("year", year)));
     }
 }

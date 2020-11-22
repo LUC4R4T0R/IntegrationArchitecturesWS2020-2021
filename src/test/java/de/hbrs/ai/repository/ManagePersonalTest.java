@@ -1,27 +1,40 @@
 package de.hbrs.ai.repository;
 
-import com.mongodb.MongoClient;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import de.hbrs.ai.model.EvaluationRecord;
+import de.hbrs.ai.model.EvaluationRecordEntry;
 import de.hbrs.ai.model.SalesMan;
 import de.hbrs.ai.model.SalesManRecord;
-import org.bson.Document;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManagePersonalTest {
 
-    private static final MongoClient client = new MongoClient("localhost", 27017);
-    private static final MongoDatabase supermongo = client.getDatabase("TestDatabase");
-    private static MongoCollection<Document> salesmen = supermongo.getCollection("salesmen");
-    private static MongoCollection<Document> records = supermongo.getCollection("records");
+
+    static ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
+    static CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
+    static CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
+    static MongoClientSettings clientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).codecRegistry(codecRegistry).build();
+    static com.mongodb.client.MongoClient mongoClient = MongoClients.create(clientSettings);
+    static MongoDatabase supermongo = mongoClient.getDatabase("test");
+    static MongoCollection<SalesMan> salesmen = supermongo.getCollection("salesmen", SalesMan.class);
+    static MongoCollection<SalesManRecord> records = supermongo.getCollection("records", SalesManRecord.class);
+
 
     private final ManagePersonal mp = new ManagePersonal(salesmen, records);
 
@@ -37,35 +50,36 @@ class ManagePersonalTest {
     @BeforeEach
     void setUp1() {
         cleanup();
-        salesmen = supermongo.getCollection("salesmen");
-        records = supermongo.getCollection("records");
+        salesmen = supermongo.getCollection("salesmen", SalesMan.class);
+        records = supermongo.getCollection("records", SalesManRecord.class);
 
         s1 = new SalesMan("Jonas", "Brill", 1);
         s2 = new SalesMan("Luca", "Ringhausen", 2);
         s3 = new SalesMan("Luca", "Ringhausen", 3);
-        salesmen.insertOne(s1.toDocument());
-        salesmen.insertOne(s2.toDocument());
-        salesmen.insertOne(s3.toDocument());
+        salesmen.insertOne(s1);
+        salesmen.insertOne(s2);
+        salesmen.insertOne(s3);
+
+        List<EvaluationRecordEntry> l1 = new ArrayList<>();
+        l1.add(new EvaluationRecordEntry(4,4,"lc"));
+        l1.add(new EvaluationRecordEntry(4,4,"ld"));
 
 
-        int[] array1 = {1, 1, 1, 1, 1, 1};
-        int[] array2 = {2, 2, 2, 2, 2, 2};
-        int[] array3 = {3, 3, 3, 3, 3, 3};
-        e1 = new EvaluationRecord(array1, 2020);
-        e2 = new EvaluationRecord(array2, 2021);
-        e3 = new EvaluationRecord(array3, 2020);
+        e1 = new EvaluationRecord(l1, 2020);
+        e2 = new EvaluationRecord(l1, 2021);
+        e3 = new EvaluationRecord(l1, 2020);
         SalesManRecord r1 = new SalesManRecord(1, e1);
         SalesManRecord r2 = new SalesManRecord(1, e2);
         SalesManRecord r3 = new SalesManRecord(2, e3);
-        records.insertOne(r1.toDocument());
-        records.insertOne(r2.toDocument());
-        records.insertOne(r3.toDocument());
+        records.insertOne(r1);
+        records.insertOne(r2);
+        records.insertOne(r3);
 
     }
 
     @AfterAll
     static void delete(){
-        cleanup();
+        //cleanup();
     }
 
     static void cleanup(){
@@ -82,7 +96,7 @@ class ManagePersonalTest {
     void createSalesManTest() {
         SalesMan s4 = new SalesMan("Jonas", "Brill", 4);
         mp.createSalesMan(s4);
-        assertNotNull(salesmen.find(eq("id", 4)).first());
+        assertNotNull(mp.readSalesMan(4));
     }
 
     @Test
@@ -113,7 +127,7 @@ class ManagePersonalTest {
     @Test
     public void updateSalesMenTest() {
         SalesMan s5 = new SalesMan("test", "Brill", 1);
-        mp.updateSalesMen(1, "test", "Brill");
+        mp.updateSalesMen(s5);
         SalesMan s = mp.readSalesMan(1);
         boolean a = s.equals(s5);
         assertTrue(a);
@@ -125,13 +139,18 @@ class ManagePersonalTest {
         assertNull(mp.readSalesMan(1));
     }
 
+
     @Test
     public void addPerformanceRecordTest() {
-        int[] a = {1, 1, 1, 1, 1, 1};
-        EvaluationRecord r4 = new EvaluationRecord(a, 2020);
+        List<EvaluationRecordEntry> l1 = new ArrayList<>();
+        l1.add(new EvaluationRecordEntry(4,4,"lc"));
+        l1.add(new EvaluationRecordEntry(4,4,"ld"));
+
+        EvaluationRecord r4 = new EvaluationRecord(l1, 2020);
         mp.addPerformanceRecord(r4, 3);
-        assertNotNull(records.find(eq("id", 3)).first());
+        assertNotNull(records.find(eq("salesmanId", 3)).first());
     }
+
 
     @Test
     public void readEvaluationRecordsTest() {
@@ -143,11 +162,15 @@ class ManagePersonalTest {
 
     @Test
     public void updateEvaluationRecordTest() {
-        int[] test = {10, 3, 3, 3, 3, 3};
-        EvaluationRecord e4 = new EvaluationRecord(test, 2020);
-        mp.updateEvaluationRecord(2, 2020, "LC", 10);
+        List<EvaluationRecordEntry> l1 = new ArrayList<>();
+        l1.add(new EvaluationRecordEntry(4,4,"lc"));
+        l1.add(new EvaluationRecordEntry(4,5,"ld"));
+        EvaluationRecord r4 = new EvaluationRecord(l1, 2020);
+        SalesManRecord s = new SalesManRecord(2,r4);
+
+        mp.updateEvaluationRecord(s);
         List<EvaluationRecord> e = mp.readEvaluationRecords(2);
-        boolean a = e.get(0).equals(e4);
+        boolean a = e.get(0).equals(r4);
         assertTrue(a);
     }
 

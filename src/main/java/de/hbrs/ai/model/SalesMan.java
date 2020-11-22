@@ -14,8 +14,8 @@ public class SalesMan {
      * The MongoDB-Collection for the salesmen.
      */
     private int id;
-    private final String firstname;
-    private final String lastname;
+    private String firstname;
+    private String lastname;
 
     /**
      * Constructor, that creates a salesman-Object with the given attributes.
@@ -24,6 +24,13 @@ public class SalesMan {
         this.firstname = firstname;
         this.lastname = lastname;
         this.id = id;
+    }
+
+    /**
+     * Default constructor.
+     */
+    public SalesMan(){
+
     }
 
     /**
@@ -71,26 +78,20 @@ public class SalesMan {
     }
 
     /**
-     * This method takes this salesman and puts its attributes into a Document.
-     *
-     * @return Returns the Document witch is build out of this salesman attributes.
-     */
-    public Document toDocument() {
-        Document d = new Document();
-        d.append("firstname", this.firstname);
-        d.append("lastname", this.lastname);
-        d.append("id", this.id);
-        return d;
-    }
-
-    /**
      * Compares this salesman to the given one.
      *
      * @param s The dsalesman to compare with.
      * @return Returns true if the salesman are equal and false if not.
      */
     public boolean equals(SalesMan s) {
-        return this.lastname.equals(s.getLastname()) && this.firstname.equals(s.getFirstname()) && this.id == s.getId();
+        return this.getLastname().equals(s.getLastname()) && this.getFirstname().equals(s.getFirstname()) && this.getId() == s.getId();
     }
 
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 }

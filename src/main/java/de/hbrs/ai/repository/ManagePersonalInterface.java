@@ -2,6 +2,7 @@ package de.hbrs.ai.repository;
 
 import de.hbrs.ai.model.EvaluationRecord;
 import de.hbrs.ai.model.SalesMan;
+import de.hbrs.ai.model.SalesManRecord;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ManagePersonalInterface {
 
     List<SalesMan> getAllSalesMen();
 
-    void updateSalesMen(int sid, String firstname, String lastname);
+    void updateSalesMen(SalesMan s);
 
     void deleteSalesMen(int sid);
 
@@ -23,7 +24,7 @@ public interface ManagePersonalInterface {
 
     List<EvaluationRecord> readEvaluationRecords(int sid);
 
-    void updateEvaluationRecord(int id, int year, String key, int attribute);
+    void updateEvaluationRecord(SalesManRecord srecord);
 
     void deleteEvaluationRecord(int sid, int year);
 
