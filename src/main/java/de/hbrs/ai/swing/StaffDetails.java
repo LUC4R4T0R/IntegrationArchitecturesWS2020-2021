@@ -6,8 +6,11 @@ import de.hbrs.ai.model.SalesMan;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class StaffDetails extends JFrame{
     private JTable recordsTable;
@@ -40,13 +43,9 @@ public class StaffDetails extends JFrame{
         }; //make table read-only
         recordsTable.setModel(tm);
         tm.addColumn("Year");
-        tm.addColumn("Leadership Competence");
-        tm.addColumn("Openness to Employee");
-        tm.addColumn("Social Behaviour to Employee");
-        tm.addColumn("Attitude towards Client");
-        tm.addColumn("Communication Skills");
-        tm.addColumn("Integrity to Company");
+        tm.addColumn("hidden"); //adding column to be hidden
         recordsTable.getTableHeader().resizeAndRepaint();
+        recordsTable.removeColumn(recordsTable.getColumnModel().getColumn(1)); //remove column from table to hide it
 
         update(sm);
 
@@ -55,15 +54,17 @@ public class StaffDetails extends JFrame{
         addRecord.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //"Add Record" button pressed
-                JFrame addEvalFrame = new AddEvalRecord(salesman, current);//creating window
-                addEvalFrame.setVisible(true);
+                JFrame evalFrame = new EvalRecord(salesman, current);//creating window
+                evalFrame.setVisible(true);
             }
         });
 
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //"Save" button pressed
-                //ToDo SwingUI.mP.updateSalesMen(salesman.getId(), firstname.getText(), lastname.getText());
+                salesman.setFirstname(firstname.getText());
+                salesman.setLastname(lastname.getText());
+                SwingUI.mP.updateSalesMen(salesman);
                 parent.loadStaff();
             }
         });
@@ -73,6 +74,17 @@ public class StaffDetails extends JFrame{
                 if(recordsTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
                     SwingUI.mP.deleteEvaluationRecord(salesman.getId(), Integer.parseInt(recordsTable.getValueAt(recordsTable.getSelectedRow(), 0).toString()));
                     update();
+                }
+            }
+        });
+        recordsTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                JTable table =(JTable) mouseEvent.getSource();
+                Point point = mouseEvent.getPoint();
+                int row = table.rowAtPoint(point);
+                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row > -1) { //executed if salesman is double-clicked
+                    showRecord((EvaluationRecord) table.getModel().getValueAt(row, 1)); //opening details-window
                 }
             }
         });
@@ -87,12 +99,9 @@ public class StaffDetails extends JFrame{
             tm.removeRow(i);
         }
 
-        /* toDO
         for(EvaluationRecord record : SwingUI.mP.readEvaluationRecords(sm.getId())){ //iterating through the records to add them all
-            int[] performance = record.getPerformance();
-            //System.out.println(performance[0]);
-            tm.addRow(new Object[]{record.getYear(), performance[0], performance[1], performance[2], performance[3], performance[4], performance[5]});
-        }*/
+            tm.addRow(new Object[]{record.getYear(), record});
+        }
     }
 
     /**
@@ -114,5 +123,11 @@ public class StaffDetails extends JFrame{
         firstname.setText(this.salesman.getFirstname());
         lastname.setText(this.salesman.getLastname());
         loadRecords(this.salesman); //loading the evaluation records
+    }
+
+
+    private void showRecord(EvaluationRecord record){
+        JFrame recordFrame = new EvalRecord(this.salesman, record, this); //create window
+        recordFrame.setVisible(true);
     }
 }
