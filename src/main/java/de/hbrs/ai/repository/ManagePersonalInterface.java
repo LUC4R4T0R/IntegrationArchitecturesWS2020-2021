@@ -22,6 +22,8 @@ public interface ManagePersonalInterface {
 
     void addPerformanceRecord(EvaluationRecord record, int sid);
 
+    EvaluationRecord getOneRecord(int sid, int year);
+
     List<EvaluationRecord> readEvaluationRecords(int sid);
 
     void updateEvaluationRecord(SalesManRecord srecord);

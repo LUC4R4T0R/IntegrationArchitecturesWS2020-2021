@@ -4,7 +4,6 @@ import com.mongodb.client.MongoCollection;
 import de.hbrs.ai.model.EvaluationRecord;
 import de.hbrs.ai.model.SalesMan;
 import de.hbrs.ai.model.SalesManRecord;
-import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -53,7 +52,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void createSalesMan(SalesMan record) {
-        if (readSalesMan(record.getId()) != null){
+        if (readSalesMan(record.getId()) != null) {
             throw new IllegalArgumentException("Id existiert bereits");
         }
         salesmen.insertOne(record);
@@ -68,11 +67,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public SalesMan readSalesMan(int sid) {
-        SalesMan s = salesmen.find(eq("_id", sid)).first();
-        if(s == null) {
-            return null;
-        }
-        return s;
+        return salesmen.find(eq("_id", sid)).first();
     }
 
     /**
@@ -86,8 +81,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public List<SalesMan> querySalesMan(String attribute, String key) {
-        List<SalesMan> s = salesmen.find(eq(key, attribute)).into(new ArrayList<>());
-        return s;
+        return salesmen.find(eq(key, attribute)).into(new ArrayList<>());
     }
 
     /**
@@ -120,7 +114,7 @@ public class ManagePersonal implements ManagePersonalInterface {
     @Override
     public void deleteSalesMen(int sid) {
         salesmen.findOneAndDelete(eq("_id", sid));
-        records.deleteMany(eq("_id",sid));
+        records.deleteMany(eq("_id", sid));
     }
 
     /**
@@ -131,7 +125,22 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void addPerformanceRecord(EvaluationRecord record, int sid) {
+        if (getOneRecord(sid, record.getYear()) != null){
+            throw new IllegalArgumentException("Für dieses SalesMan existiert bereits ein record für dieses Jahr");
+        }
         records.insertOne(new SalesManRecord(sid, record));
+    }
+
+    /**
+     * Finds the PerformanceRecord with the given attribute.
+     *
+     * @param sid The Id of the salesman who the PerformanceRecord search is about.
+     * @param year The year the record was created.
+     * @return This method returns the record of this year.
+     */
+    @Override
+    public EvaluationRecord getOneRecord(int sid, int year){
+        return records.find(and(eq("_id", sid), eq("performance.year", year))).first().getPerformance();
     }
 
     /**
@@ -157,7 +166,7 @@ public class ManagePersonal implements ManagePersonalInterface {
     /**
      * Updates the evaluationrecord with the given id attribute.
      *
-     * @param srecord   The updated salesman-Record.
+     * @param srecord The updated salesman-Record.
      */
     @Override
     public void updateEvaluationRecord(SalesManRecord srecord) {
