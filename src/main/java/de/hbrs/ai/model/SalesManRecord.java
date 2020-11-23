@@ -31,19 +31,29 @@ public class SalesManRecord {
     }
 
     /**
-     * Default constructor.
+     * Returns the performance of this Entry.
+     *
+     * @return Returns the performance.
      */
-    public SalesManRecord(){
-
-    }
-
     public EvaluationRecord getPerformance() {
         return performance;
     }
 
+    /**
+     * Returns the id of this salesmans-performance.
+     *
+     * @return Returns the id.
+     */
     public int getSalesmanId() {
         return salesmanId;
     }
+
+    /*
+                                                                            must exist cause of MongoDb automatic toJson
+    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    public SalesManRecord() {}
 
     public void setPerformance(EvaluationRecord performance) {
         this.performance = performance;

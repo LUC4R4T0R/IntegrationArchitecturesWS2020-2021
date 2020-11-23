@@ -32,13 +32,6 @@ public class EvaluationRecordEntry {
         this.performance = performance;
     }
 
-    /**
-     * Default constructor;
-     */
-    public EvaluationRecordEntry(){
-
-    }
-
     public String getPerformance() {
         return performance;
     }
@@ -50,6 +43,14 @@ public class EvaluationRecordEntry {
     public int getExpected() {
         return expected;
     }
+
+
+    /*
+                                                                            must exist cause of MongoDb automatic toJson
+    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    public EvaluationRecordEntry() {}
 
     public void setActual(int actual) {
         this.actual = actual;

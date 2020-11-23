@@ -1,7 +1,5 @@
 package de.hbrs.ai.model;
 
-import org.bson.Document;
-
 /**
  * @author jbrill2s, lringh2s
  * <p>
@@ -27,11 +25,9 @@ public class SalesMan {
     }
 
     /**
-     * Default constructor.
+     * Default constructor
      */
-    public SalesMan(){
-
-    }
+    public SalesMan() {}
 
     /**
      * Returns the id of this salesman.
@@ -86,6 +82,11 @@ public class SalesMan {
     public boolean equals(SalesMan s) {
         return this.getLastname().equals(s.getLastname()) && this.getFirstname().equals(s.getFirstname()) && this.getId() == s.getId();
     }
+
+    /*
+                                                                            must exist cause of MongoDb automatic toJson
+    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;

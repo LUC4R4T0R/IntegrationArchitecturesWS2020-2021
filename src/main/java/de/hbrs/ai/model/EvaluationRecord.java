@@ -27,13 +27,6 @@ public class EvaluationRecord {
     }
 
     /**
-     * Default constructor
-     */
-    public EvaluationRecord(){
-        this.performance = new ArrayList<>();
-    }
-
-    /**
      * Gets the evaluation of this evaluationrecord.
      *
      * @return Returns the performance-String.
@@ -60,10 +53,21 @@ public class EvaluationRecord {
     public boolean equals(EvaluationRecord er) {
         boolean a;
         for (int i = 0; i < er.getPerformance().size(); i++) {
-            a = er.getPerformance().get(i).getActual() == this.getPerformance().get(i).getActual() && er.getPerformance().get(i).getExpected() == this.getPerformance().get(i).getExpected() &&er.getPerformance().get(i).getPerformance().equals(this.getPerformance().get(i).getPerformance());
-            if (a == false){return false;}
+            a = er.getPerformance().get(i).getActual() == this.getPerformance().get(i).getActual() && er.getPerformance().get(i).getExpected() == this.getPerformance().get(i).getExpected() && er.getPerformance().get(i).getPerformance().equals(this.getPerformance().get(i).getPerformance());
+            if (!a) {
+                return false;
+            }
         }
         return this.getYear() == er.getYear();
+    }
+
+    /*
+                                                                            must exist cause of MongoDb automatic toJson
+    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     */
+
+    public EvaluationRecord() {
+        this.performance = new ArrayList<>();
     }
 
     public void setPerformance(List<EvaluationRecordEntry> performance) {
