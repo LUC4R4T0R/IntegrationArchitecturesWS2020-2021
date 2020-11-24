@@ -151,6 +151,13 @@ class ManagePersonalTest {
         assertNotNull(records.find(eq("salesmanId", 3)).first());
     }
 
+    @Test
+    public void getOneRecordTest(){
+        EvaluationRecord a = mp.getOneRecord(1,2020);
+        boolean b = a.equals(e1);
+        assertTrue(b);
+    }
+
 
     @Test
     public void readEvaluationRecordsTest() {
