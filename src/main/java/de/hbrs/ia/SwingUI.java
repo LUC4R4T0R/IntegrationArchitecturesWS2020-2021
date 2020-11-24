@@ -1,4 +1,4 @@
-package de.hbrs.ai;
+package de.hbrs.ia;
 
 import java.io.IOException;
 
@@ -7,11 +7,10 @@ import javax.swing.JFrame;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
-import de.hbrs.ai.model.SalesMan;
-import de.hbrs.ai.model.SalesManRecord;
-import de.hbrs.ai.repository.ManagePersonal;
-import de.hbrs.ai.swing.Overview;
-import org.bson.Document;
+import de.hbrs.ia.model.SalesMan;
+import de.hbrs.ia.model.SalesManRecord;
+import de.hbrs.ia.repository.ManagePersonal;
+import de.hbrs.ia.swing.Overview;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;

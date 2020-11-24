@@ -1,6 +1,4 @@
-package de.hbrs.ai.model;
-
-import org.bson.Document;
+package de.hbrs.ia.model;
 
 /**
  * @author jbrill2s, lringh2s

@@ -1,6 +1,6 @@
-package de.hbrs.ai.swing;
+package de.hbrs.ia.swing;
 
-import de.hbrs.ai.model.SalesMan;
+import de.hbrs.ia.model.SalesMan;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -11,7 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
-import de.hbrs.ai.SwingUI;
+import de.hbrs.ia.SwingUI;
 
 public class Overview extends JFrame{
     private JButton addSalesmanButton;

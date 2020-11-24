@@ -1,14 +1,14 @@
-package de.hbrs.ai.repository;
+package de.hbrs.ia.repository;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import de.hbrs.ai.model.EvaluationRecord;
-import de.hbrs.ai.model.EvaluationRecordEntry;
-import de.hbrs.ai.model.SalesMan;
-import de.hbrs.ai.model.SalesManRecord;
+import de.hbrs.ia.model.EvaluationRecord;
+import de.hbrs.ia.model.EvaluationRecordEntry;
+import de.hbrs.ia.model.SalesMan;
+import de.hbrs.ia.model.SalesManRecord;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.junit.jupiter.api.AfterAll;

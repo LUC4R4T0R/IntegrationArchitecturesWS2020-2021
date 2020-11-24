@@ -1,9 +1,9 @@
-package de.hbrs.ai.repository;
+package de.hbrs.ia.repository;
 
 import com.mongodb.client.MongoCollection;
-import de.hbrs.ai.model.EvaluationRecord;
-import de.hbrs.ai.model.SalesMan;
-import de.hbrs.ai.model.SalesManRecord;
+import de.hbrs.ia.model.EvaluationRecord;
+import de.hbrs.ia.model.SalesMan;
+import de.hbrs.ia.model.SalesManRecord;
 
 import java.util.ArrayList;
 import java.util.Comparator;

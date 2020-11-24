@@ -1,4 +1,4 @@
-package de.hbrs.ai;
+package de.hbrs.ia;
 
 
 import org.springframework.boot.SpringApplication;

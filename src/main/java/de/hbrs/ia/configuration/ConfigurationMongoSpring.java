@@ -1,11 +1,10 @@
-package de.hbrs.ai.configuration;
+package de.hbrs.ia.configuration;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import de.hbrs.ai.model.SalesMan;
-import de.hbrs.ai.model.SalesManRecord;
-import de.hbrs.ai.repository.ManagePersonal;
-import org.bson.Document;
+import de.hbrs.ia.model.SalesMan;
+import de.hbrs.ia.model.SalesManRecord;
+import de.hbrs.ia.repository.ManagePersonal;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.mongodb.MongoClient;

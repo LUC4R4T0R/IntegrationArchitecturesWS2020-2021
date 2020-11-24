@@ -1,18 +1,15 @@
-package de.hbrs.ai.swing;
+package de.hbrs.ia.swing;
 
-import de.hbrs.ai.SwingUI;
-import de.hbrs.ai.model.EvaluationRecord;
-import de.hbrs.ai.model.EvaluationRecordEntry;
-import de.hbrs.ai.model.SalesMan;
-import de.hbrs.ai.model.SalesManRecord;
+import de.hbrs.ia.SwingUI;
+import de.hbrs.ia.model.EvaluationRecord;
+import de.hbrs.ia.model.EvaluationRecordEntry;
+import de.hbrs.ia.model.SalesMan;
+import de.hbrs.ia.model.SalesManRecord;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 

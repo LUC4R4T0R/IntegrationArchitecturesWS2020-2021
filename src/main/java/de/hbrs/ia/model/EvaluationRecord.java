@@ -1,4 +1,4 @@
-package de.hbrs.ai.model;
+package de.hbrs.ia.model;
 
 import java.util.ArrayList;
 import java.util.List;

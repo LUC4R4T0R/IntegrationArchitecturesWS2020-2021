@@ -1,4 +1,4 @@
-package de.hbrs.ai.model;
+package de.hbrs.ia.model;
 
 /**
  * @author jbrill2s, lringh2s

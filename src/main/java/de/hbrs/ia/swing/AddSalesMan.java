@@ -1,7 +1,7 @@
-package de.hbrs.ai.swing;
+package de.hbrs.ia.swing;
 
-import de.hbrs.ai.SwingUI;
-import de.hbrs.ai.model.SalesMan;
+import de.hbrs.ia.SwingUI;
+import de.hbrs.ia.model.SalesMan;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,6 +1,6 @@
-package de.hbrs.ai.controller;
+package de.hbrs.ia.controller;
 
-import de.hbrs.ai.repository.ManagePersonal;
+import de.hbrs.ia.repository.ManagePersonal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
