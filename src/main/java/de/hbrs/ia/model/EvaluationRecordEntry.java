@@ -20,20 +20,20 @@ public class EvaluationRecordEntry {
     /**
      * The type of performance;
      */
-    private String performance;
+    private String name;
 
     /**
      * Constructor, that creates an evaluationrecordentry-Object with the given
      * values.
      */
-    public EvaluationRecordEntry(int expectet, int actual, String performance) {
+    public EvaluationRecordEntry(int expectet, int actual, String name) {
         this.expected = expectet;
         this.actual = actual;
-        this.performance = performance;
+        this.name = name;
     }
 
-    public String getPerformance() {
-        return performance;
+    public String getName() {
+        return name;
     }
 
     public int getActual() {
@@ -60,7 +60,7 @@ public class EvaluationRecordEntry {
         this.expected = expected;
     }
 
-    public void setPerformance(String performance) {
-        this.performance = performance;
+    public void setName(String name) {
+        this.name = name;
     }
 }

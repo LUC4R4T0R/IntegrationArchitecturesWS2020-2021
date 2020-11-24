@@ -53,7 +53,7 @@ public class EvaluationRecord {
     public boolean equals(EvaluationRecord er) {
         boolean a;
         for (int i = 0; i < er.getPerformance().size(); i++) {
-            a = er.getPerformance().get(i).getActual() == this.getPerformance().get(i).getActual() && er.getPerformance().get(i).getExpected() == this.getPerformance().get(i).getExpected() && er.getPerformance().get(i).getPerformance().equals(this.getPerformance().get(i).getPerformance());
+            a = er.getPerformance().get(i).getActual() == this.getPerformance().get(i).getActual() && er.getPerformance().get(i).getExpected() == this.getPerformance().get(i).getExpected() && er.getPerformance().get(i).getName().equals(this.getPerformance().get(i).getName());
             if (!a) {
                 return false;
             }
