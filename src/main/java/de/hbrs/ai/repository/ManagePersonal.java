@@ -139,8 +139,8 @@ public class ManagePersonal implements ManagePersonalInterface {
      * @return This method returns the record of this year.
      */
     @Override
-    public EvaluationRecord getOneRecord(int sid, int year){
-        return records.find(and(eq("salesmanId", sid), eq("performance.year", year))).first().getPerformance();
+    public SalesManRecord getOneRecord(int sid, int year){
+        return records.find(and(eq("salesmanId", sid), eq("performance.year", year))).first();
     }
 
     /**

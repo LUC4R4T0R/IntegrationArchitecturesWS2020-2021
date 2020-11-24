@@ -153,8 +153,8 @@ class ManagePersonalTest {
 
     @Test
     public void getOneRecordTest(){
-        EvaluationRecord a = mp.getOneRecord(1,2020);
-        boolean b = a.equals(e1);
+        SalesManRecord a = mp.getOneRecord(1,2020);
+        boolean b = a.getPerformance().equals(e1);
         assertTrue(b);
     }
 
