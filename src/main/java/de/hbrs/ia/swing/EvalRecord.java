@@ -112,7 +112,7 @@ public class EvalRecord extends JFrame{
         }
 
         for(EvaluationRecordEntry entry : this.evaluationRecord.getPerformance()){ //iterating through the entries to add them all
-            tm.addRow(new Object[]{entry.getPerformance(), entry.getExpected(), entry.getActual()});
+            tm.addRow(new Object[]{entry.getName(), entry.getExpected(), entry.getActual()});
         }
     }
 
