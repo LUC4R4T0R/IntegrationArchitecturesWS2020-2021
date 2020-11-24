@@ -29,9 +29,13 @@ public class AddSalesMan extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {//"Add" button pressed
                 SalesMan newSalesMan = new SalesMan(firstname.getText(), lastname.getText(), Integer.parseInt(id.getText())); //create new salesman
-                SwingUI.mP.createSalesMan(newSalesMan); //store salesman in DB
-                parent.loadStaff();
-                kill(); //close window
+                try {
+                    SwingUI.mP.createSalesMan(newSalesMan); //store salesman in DB
+                    parent.loadStaff();
+                    kill(); //close window
+                }catch (IllegalArgumentException ex){
+                    JOptionPane.showMessageDialog(new JFrame(), "A salesman with that ID already exists!", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
     }
