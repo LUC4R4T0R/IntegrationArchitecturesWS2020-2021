@@ -32,7 +32,7 @@ public class SwingUI {
     public static ManagePersonal mP;
 	
     public static void main(String[] args) throws IOException {
-        ConnectionString connectionString = new ConnectionString("http://localhost:27017");
+        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
         CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
         CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(), pojoCodecRegistry);
         MongoClientSettings clientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).codecRegistry(codecRegistry).build();
