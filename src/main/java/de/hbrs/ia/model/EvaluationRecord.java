@@ -27,6 +27,15 @@ public class EvaluationRecord {
     }
 
     /**
+     * Constructor, that creates an evaluationrecord-Object with only the given
+     * year.
+     */
+    public EvaluationRecord(int year) {
+        this.year = year;
+        this.performance = new ArrayList<>();
+    }
+
+    /**
      * Gets the evaluation of this evaluationrecord.
      *
      * @return Returns the performance-String.
