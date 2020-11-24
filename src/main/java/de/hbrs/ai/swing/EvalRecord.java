@@ -85,7 +85,10 @@ public class EvalRecord extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(recordTable.getSelectedRow() >= 0){
-                    tm.removeRow(recordTable.getSelectedRow());
+                    int n = JOptionPane.showOptionDialog(new JFrame(), "Do you really want wo delete this entry?", "Evaluation Record Entry Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Yes", "No"}, "No");
+                    if(n == 0) {
+                        tm.removeRow(recordTable.getSelectedRow());
+                    }
                 }
             }
         });

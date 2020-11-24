@@ -72,8 +72,11 @@ public class StaffDetails extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(recordsTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
-                    SwingUI.mP.deleteEvaluationRecord(salesman.getId(), Integer.parseInt(recordsTable.getValueAt(recordsTable.getSelectedRow(), 0).toString()));
-                    update();
+                    int n = JOptionPane.showOptionDialog(new JFrame(), "Do you really want wo delete the record of "+recordsTable.getValueAt(recordsTable.getSelectedRow(), 0)+"\"?", "Evaluation Record Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Yes", "No"}, "No");
+                    if(n == 0) {
+                        SwingUI.mP.deleteEvaluationRecord(salesman.getId(), Integer.parseInt(recordsTable.getValueAt(recordsTable.getSelectedRow(), 0).toString()));
+                        update();
+                    }
                 }
             }
         });
