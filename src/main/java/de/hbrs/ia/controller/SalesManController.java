@@ -14,9 +14,9 @@ public class SalesManController {
     @Autowired
     ManagePersonal managePersonal;
 
-    @PostMapping()
-    public void createSalesman(@RequestParam(name = "salesman")SalesMan salesman){
-            managePersonal.createSalesMan(salesman);
+    @PostMapping("/{id}")
+    public void createSalesman(@PathVariable() int id, @RequestParam() String vorname, @RequestParam() String nachname){
+            managePersonal.createSalesMan(new SalesMan(vorname,nachname,id));
     }
 
     @GetMapping("/{id}")
@@ -26,16 +26,13 @@ public class SalesManController {
     }
 
     @GetMapping()
-    public List<SalesMan> querySalesman(@RequestParam(name = "key", defaultValue = "") String key, @RequestParam(name = "attribute", defaultValue = "") String attribute){
-        if (key.equals("") && attribute.equals("")){
-            return managePersonal.getAllSalesMen();
-        }
-        return managePersonal.querySalesMan(attribute,key);
+    public List<SalesMan> getAllSalesman(){
+        return managePersonal.getAllSalesMen();
     }
 
-    @PutMapping()
-    public void updtaeSalesman(@RequestParam(name = "salesman")SalesMan salesman){
-        managePersonal.updateSalesMen(salesman);
+    @PutMapping("/{id}")
+    public void updtaeSalesman(@PathVariable() int id, @RequestParam() String vorname, @RequestParam() String nachname){
+        managePersonal.updateSalesMen(new SalesMan(vorname,nachname,id));
     }
 
     @DeleteMapping("/{id}")
@@ -43,9 +40,4 @@ public class SalesManController {
         managePersonal.deleteSalesMen(id);
     }
 
-    @GetMapping("/test/{id}")
-    public String test(@PathVariable() int id){
-        managePersonal.readSalesMan(17);
-        return "hallo" +id;
-    }
 }
