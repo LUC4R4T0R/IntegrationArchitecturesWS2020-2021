@@ -80,8 +80,11 @@ public class Overview extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) { //"Remove Salesman" button pressed
                 if(staffTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
-                    SwingUI.mP.deleteSalesMen(Integer.parseInt(staffTable.getValueAt(staffTable.getSelectedRow(), 0).toString()));
-                    loadStaff();
+                    int n = JOptionPane.showOptionDialog(new JFrame(), "Do you really want wo delete the entry of \""+staffTable.getValueAt(staffTable.getSelectedRow(), 1)+" "+staffTable.getValueAt(staffTable.getSelectedRow(), 2)+"\" ?", "Salesman Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Yes", "No"}, "No");
+                    if(n == 0) {
+                        SwingUI.mP.deleteSalesMen(Integer.parseInt(staffTable.getValueAt(staffTable.getSelectedRow(), 0).toString()));
+                        loadStaff();
+                    }
                 }
             }
         });

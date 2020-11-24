@@ -45,10 +45,14 @@ public class EvalRecord extends JFrame{
             createButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    pushRecord();
-                    createButton.setEnabled(false);
-                    yearInput.setEnabled(false);
-                    enableLower();
+                    try {
+                        pushRecord();
+                        createButton.setEnabled(false);
+                        yearInput.setEnabled(false);
+                        enableLower();
+                    }catch (IllegalArgumentException ex){
+                        JOptionPane.showMessageDialog(new JFrame(), "This salesman has already a record for that year!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
                 }
             });
         }else{
@@ -142,7 +146,7 @@ public class EvalRecord extends JFrame{
         saveButton.setEnabled(true);
     }
 
-    private void pushRecord(){
+    private void pushRecord() throws IllegalArgumentException{
         this.evaluationRecord.setYear(Integer.parseInt(yearInput.getText()));
         SwingUI.mP.addPerformanceRecord(this.evaluationRecord, this.salesMan.getId());
         this.parent.update();
