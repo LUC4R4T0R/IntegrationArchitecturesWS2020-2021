@@ -44,6 +44,10 @@ public class EvaluationRecordEntry {
         return expected;
     }
 
+    public boolean equals(Object obj){
+        if(obj instanceof EvaluationRecordEntry) return this.name.equals(((EvaluationRecordEntry) obj).getName());
+        return super.equals(obj);
+    }
 
     /*
                                                                             must exist cause of MongoDb automatic toJson
