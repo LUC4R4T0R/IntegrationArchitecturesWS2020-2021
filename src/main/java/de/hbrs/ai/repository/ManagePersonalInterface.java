@@ -22,7 +22,7 @@ public interface ManagePersonalInterface {
 
     void addPerformanceRecord(EvaluationRecord record, int sid);
 
-    SalesManRecord getOneRecord(int sid, int year);
+    EvaluationRecord getOneRecord(int sid, int year);
 
     List<EvaluationRecord> readEvaluationRecords(int sid);
 

@@ -125,7 +125,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void addPerformanceRecord(EvaluationRecord record, int sid) {
-        if (records.find(and(eq("salesmanId", sid), eq("performance.year", record.getYear()))).first() != null){
+        if (getOneRecord(sid, record.getYear()) != null){
             throw new IllegalArgumentException("Für dieses SalesMan existiert bereits ein record für dieses Jahr");
         }
         records.insertOne(new SalesManRecord(sid, record));
@@ -139,8 +139,12 @@ public class ManagePersonal implements ManagePersonalInterface {
      * @return This method returns the record of this year.
      */
     @Override
-    public SalesManRecord getOneRecord(int sid, int year){
-        return records.find(and(eq("salesmanId", sid), eq("performance.year", year))).first();
+    public EvaluationRecord getOneRecord(int sid, int year){
+        SalesManRecord temp = records.find(and(eq("salesmanId", sid), eq("performance.year", year))).first();
+        if(temp == null){
+            return null;
+        }
+        return temp.getPerformance();
     }
 
     /**

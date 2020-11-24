@@ -153,9 +153,15 @@ class ManagePersonalTest {
 
     @Test
     public void getOneRecordTest(){
-        SalesManRecord a = mp.getOneRecord(1,2020);
-        boolean b = a.getPerformance().equals(e1);
-        assertTrue(b);
+        EvaluationRecord a = mp.getOneRecord(1,2020);
+        System.out.println(a);
+        assertTrue(a.equals(e1));
+    }
+
+    @Test
+    public void getOneNotExistentRecordTest(){
+        EvaluationRecord a = mp.getOneRecord(1,2030);
+        assertNull(a);
     }
 
 
