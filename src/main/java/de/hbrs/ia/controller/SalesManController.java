@@ -21,13 +21,16 @@ public class SalesManController {
 
     @GetMapping("/{id}")
     public SalesMan readSalesMan(@PathVariable() int id){
-        SalesMan a = managePersonal.readSalesMan(id);
-        return a;
+        return managePersonal.readSalesMan(id);
     }
 
     @GetMapping()
-    public List<SalesMan> getAllSalesman(){
-        return managePersonal.getAllSalesMen();
+    public List<SalesMan> getMoreSalesman(@RequestParam(name = "key", defaultValue = "") String key, @RequestParam(name = "attribute", defaultValue = "") String attribute){
+        if (key.equals("") && attribute.equals("")){
+            return managePersonal.getAllSalesMen();
+        } else{
+            return managePersonal.querySalesMan(attribute,key);
+        }
     }
 
     @PutMapping("/{id}")
