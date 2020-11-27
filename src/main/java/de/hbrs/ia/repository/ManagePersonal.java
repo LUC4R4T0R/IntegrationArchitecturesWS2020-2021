@@ -9,6 +9,7 @@ import de.hbrs.ia.model.SalesManRecord;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
@@ -53,8 +54,9 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void createSalesMan(SalesMan record) {
+        //is there a salesman with the same id?
         if (readSalesMan(record.getId()) != null) {
-            throw new IllegalArgumentException("Id existiert bereits");
+            throw new IllegalArgumentException("Id already exists");
         }
         salesmen.insertOne(record);
     }
@@ -68,7 +70,12 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public SalesMan readSalesMan(int sid) {
-        return salesmen.find(eq("_id", sid)).first();
+        SalesMan s = salesmen.find(eq("_id", sid)).first();
+        //no object found with this id:
+        if (s == null){
+            throw new NoSuchElementException();
+        }
+        return s;
     }
 
     /**
@@ -82,7 +89,12 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public List<SalesMan> querySalesMan(String attribute, String key) {
-        return salesmen.find(eq(key, attribute)).into(new ArrayList<>());
+        List<SalesMan> s = salesmen.find(eq(key, attribute)).into(new ArrayList<>());
+        //no object found with this id:
+        if (s == null){
+            throw new NoSuchElementException();
+        }
+        return s;
     }
 
     /**
@@ -104,7 +116,11 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void updateSalesMen(SalesMan s) {
-        salesmen.findOneAndReplace(eq("_id", s.getId()), s);
+       SalesMan ls = salesmen.findOneAndReplace(eq("_id", s.getId()), s);
+        //no object found with this id:
+        if (ls == null){
+            throw new NoSuchElementException();
+        }
     }
 
     /**
@@ -114,8 +130,11 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void deleteSalesMen(int sid) {
-        salesmen.findOneAndDelete(eq("_id", sid));
+        SalesMan s =  salesmen.findOneAndDelete(eq("_id", sid));
         records.deleteMany(eq("_id", sid));
+        if (s == null){
+            throw new NoSuchElementException();
+        }
     }
 
     /**
@@ -126,7 +145,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void addPerformanceRecord(EvaluationRecord record, int sid) {
-        if (getOneRecord(sid, record.getYear()) != null){
+        if (getOneRecord(sid, record.getYear()) != null) {
             throw new IllegalArgumentException("Für dieses SalesMan existiert bereits ein record für dieses Jahr");
         }
         records.insertOne(new SalesManRecord(sid, record));
@@ -135,14 +154,14 @@ public class ManagePersonal implements ManagePersonalInterface {
     /**
      * Finds the PerformanceRecord with the given attribute.
      *
-     * @param sid The Id of the salesman who the PerformanceRecord search is about.
+     * @param sid  The Id of the salesman who the PerformanceRecord search is about.
      * @param year The year the record was created.
      * @return This method returns the record of this year.
      */
     @Override
-    public EvaluationRecord getOneRecord(int sid, int year){
+    public EvaluationRecord getOneRecord(int sid, int year) {
         SalesManRecord temp = records.find(and(eq("salesmanId", sid), eq("performance.year", year))).first();
-        if(temp == null){
+        if (temp == null) {
             return null;
         }
         return temp.getPerformance();
@@ -188,37 +207,24 @@ public class ManagePersonal implements ManagePersonalInterface {
     public void deleteEvaluationRecord(int sid, int year) {
         records.findOneAndDelete(and(eq("salesmanId", sid), eq("performance.year", year)));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public void addRecordEntry(int id, int year,EvaluationRecordEntry ere) {
+    public void addRecordEntry(int id, int year, EvaluationRecordEntry ere) {
         EvaluationRecord record = this.getOneRecord(id, year);
-        if(record != null) {
+        if (record != null) {
             record.getPerformance().add(ere);
             this.updateEvaluationRecord(new SalesManRecord(id, record));
-        }else {
+        } else {
             throw new IllegalArgumentException("Für diese Id-Jahr Kombination existiert kein EvaluationRecord");
         }
     }
 
 
     @Override
-    public List<EvaluationRecordEntry> getAllEntrys(int id, int year){
+    public List<EvaluationRecordEntry> getAllEntrys(int id, int year) {
         EvaluationRecord record = this.getOneRecord(id, year);
-        if(record != null) {
+        if (record != null) {
             return record.getPerformance();
         }
         return null;
@@ -228,9 +234,9 @@ public class ManagePersonal implements ManagePersonalInterface {
     @Override
     public EvaluationRecordEntry getOneEntry(int id, int year, String name) {
         EvaluationRecord record = this.getOneRecord(id, year);
-        if(record != null) {
+        if (record != null) {
             List<EvaluationRecordEntry> entries = this.getOneRecord(id, year).getPerformance();
-            int index = entries.indexOf(new EvaluationRecordEntry(0 ,0 ,name));
+            int index = entries.indexOf(new EvaluationRecordEntry(0, 0, name));
             if (index >= 0) return entries.get(index);
         }
         return null;
@@ -240,9 +246,9 @@ public class ManagePersonal implements ManagePersonalInterface {
     @Override
     public void updateEntry(int id, int year, EvaluationRecordEntry ere) {
         EvaluationRecord record = this.getOneRecord(id, year);
-        if(record != null) {
+        if (record != null) {
             List<EvaluationRecordEntry> entries = record.getPerformance();
-            int index = entries.indexOf(new EvaluationRecordEntry(0 ,0 ,ere.getName()));
+            int index = entries.indexOf(new EvaluationRecordEntry(0, 0, ere.getName()));
             if (index >= 0) {
                 EvaluationRecordEntry entry = entries.get(index);
                 entry.setActual(ere.getActual());
@@ -257,8 +263,8 @@ public class ManagePersonal implements ManagePersonalInterface {
     public void deleteEntry(int id, int year, String name) {
         EvaluationRecord record = this.getOneRecord(id, year);
         List<EvaluationRecordEntry> entries = record.getPerformance();
-        int index = entries.indexOf(new EvaluationRecordEntry(0 ,0 ,name));
-        if(index >= 0){
+        int index = entries.indexOf(new EvaluationRecordEntry(0, 0, name));
+        if (index >= 0) {
             entries.remove(index);
             record.setPerformance(entries);
             this.updateEvaluationRecord(new SalesManRecord(id, record));
