@@ -22,7 +22,7 @@ public class EvaluationRecordController {
     }
 
     @GetMapping("/{id}/evaluationrecord/{year}")
-    public EvaluationRecord getRecord(@PathVariable(required = true) int id, @PathVariable(required = true) int year){ //R
+    public EvaluationRecord getRecord(@PathVariable() int id, @PathVariable() int year){ //R
         EvaluationRecord er = managePersonal.getOneRecord(id, year);
         if (er == null){
             throw new NotFoundException();
@@ -31,7 +31,7 @@ public class EvaluationRecordController {
     }
 
     @GetMapping("/{id}/evaluationrecord")
-    public List<EvaluationRecord> getAll(@PathVariable(required = true) int id){ //R
+    public List<EvaluationRecord> getAll(@PathVariable() int id){ //R
         try{
             return managePersonal.readEvaluationRecords(id);
         }catch (Exception e){
@@ -41,7 +41,7 @@ public class EvaluationRecordController {
     }
 
     @DeleteMapping("/{id}/evaluationrecord/{year}")
-    public void deleteRecord(@PathVariable(required = true) int id, @PathVariable(required = true) int year){ //D
+    public void deleteRecord(@PathVariable() int id, @PathVariable() int year){ //D
         try{
             managePersonal.deleteEvaluationRecord(id, year);
         }catch (Exception e){
