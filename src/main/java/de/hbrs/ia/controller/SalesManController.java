@@ -14,18 +14,18 @@ public class SalesManController {
     @Autowired
     ManagePersonal managePersonal;
 
-    @PostMapping("/{id}")
-    public void createSalesman(@PathVariable() int id, @RequestParam() String vorname, @RequestParam() String nachname){
-            managePersonal.createSalesMan(new SalesMan(vorname,nachname,id));
+    @PostMapping()
+    public void createSalesman(@RequestBody() SalesMan s){ //C
+        managePersonal.createSalesMan(s);
     }
 
     @GetMapping("/{id}")
-    public SalesMan readSalesMan(@PathVariable() int id){
+    public SalesMan readSalesMan(@PathVariable() int id){ //R
         return managePersonal.readSalesMan(id);
     }
 
     @GetMapping()
-    public List<SalesMan> getMoreSalesman(@RequestParam(name = "key", defaultValue = "") String key, @RequestParam(name = "attribute", defaultValue = "") String attribute){
+    public List<SalesMan> getMoreSalesman(@RequestParam(name = "key", defaultValue = "",required = false) String key, @RequestParam(name = "attribute", defaultValue = "",required = false) String attribute){ //R
         if (key.equals("") && attribute.equals("")){
             return managePersonal.getAllSalesMen();
         } else{
@@ -33,13 +33,13 @@ public class SalesManController {
         }
     }
 
-    @PutMapping("/{id}")
-    public void updtaeSalesman(@PathVariable() int id, @RequestParam() String vorname, @RequestParam() String nachname){
-        managePersonal.updateSalesMen(new SalesMan(vorname,nachname,id));
+    @PutMapping()
+    public void updtaeSalesman(@RequestBody() SalesMan s){ //U
+        managePersonal.updateSalesMen(s);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSalesman(@PathVariable() int id){
+    public void deleteSalesman(@PathVariable() int id){ //D
         managePersonal.deleteSalesMen(id);
     }
 
