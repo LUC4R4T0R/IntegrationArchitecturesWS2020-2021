@@ -246,7 +246,7 @@ public class ManagePersonal implements ManagePersonalInterface {
             if (index >= 0) {
                 EvaluationRecordEntry entry = entries.get(index);
                 entry.setActual(ere.getActual());
-                entry.setExpected(ere.getExpected());
+                entry.setTarget(ere.getTarget());
                 this.updateEvaluationRecord(new SalesManRecord(id, record));
             }
         }

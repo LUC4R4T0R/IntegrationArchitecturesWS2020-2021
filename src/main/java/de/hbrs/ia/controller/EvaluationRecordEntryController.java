@@ -30,12 +30,12 @@ public class EvaluationRecordEntryController {
     }
 
     @PutMapping("/{id}/evaluationrecord/{year}/entry")
-    public void updateRecordEntry(@PathVariable(required = true) int id, @PathVariable int year, @RequestBody() EvaluationRecordEntry ere){ //U
+    public void updateRecordEntry(@PathVariable() int id, @PathVariable int year, @RequestBody() EvaluationRecordEntry ere){ //U
         managePersonal.updateEntry(id, year, ere);
     }
 
     @DeleteMapping("/{id}/evaluationrecord/{year}/entry/{name}")
-    public void removeRecordEntry(@PathVariable(required = true) int id, @PathVariable int year, @PathVariable String name) { //D
+    public void removeRecordEntry(@PathVariable() int id, @PathVariable int year, @PathVariable String name) { //D
         managePersonal.deleteEntry(id, year, name);
     }
 }

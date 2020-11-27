@@ -18,9 +18,9 @@ public class SalesManRecord {
     private EvaluationRecord performance;
 
     /**
-     * Constructor, that creates a salesman-Object with the given attributes.
+     * Constructor, that creates a salesmanrecord-object with the given attributes.
      *
-     * @param salesmanId  The id of the salesman, the record s about
+     * @param salesmanId  The id of the salesman, the record is about
      * @param performance The performance-record for the salesman.
      */
     public SalesManRecord(int salesmanId, EvaluationRecord performance) {
@@ -29,7 +29,12 @@ public class SalesManRecord {
     }
 
     /**
-     * Returns the performance of this Entry.
+     * Default constructor
+     */
+    public SalesManRecord() {}
+
+    /**
+     * Returns the performance of this entry.
      *
      * @return Returns the performance.
      */
@@ -38,7 +43,14 @@ public class SalesManRecord {
     }
 
     /**
-     * Returns the id of this salesmans-performance.
+     * Sets the performance of this evaluationentry.
+     */
+    public void setPerformance(EvaluationRecord performance) {
+        this.performance = performance;
+    }
+
+    /**
+     * Returns the id of this salesman's performance .
      *
      * @return Returns the id.
      */
@@ -46,17 +58,9 @@ public class SalesManRecord {
         return salesmanId;
     }
 
-    /*
-                                                                            must exist cause of MongoDb automatic toJson
-    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    /**
+     * Sets the salesmanid. .
      */
-
-    public SalesManRecord() {}
-
-    public void setPerformance(EvaluationRecord performance) {
-        this.performance = performance;
-    }
-
     public void setSalesmanId(int salesmanId) {
         this.salesmanId = salesmanId;
     }

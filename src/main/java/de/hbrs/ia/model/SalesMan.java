@@ -9,14 +9,22 @@ package de.hbrs.ia.model;
 public class SalesMan {
 
     /**
-     * The MongoDB-Collection for the salesmen.
+     * The id of the salesman
      */
     private int id;
+
+    /**
+     * The firstname of the salesman
+     */
     private String firstname;
+
+    /**
+     * The lastname of the salesman
+     */
     private String lastname;
 
     /**
-     * Constructor, that creates a salesman-Object with the given attributes.
+     * Constructor, that creates a salesman-object with the given attributes.
      */
     public SalesMan(String firstname, String lastname, int id) {
         this.firstname = firstname;
@@ -27,7 +35,8 @@ public class SalesMan {
     /**
      * Default constructor
      */
-    public SalesMan() {}
+    public SalesMan() {
+    }
 
     /**
      * Returns the id of this salesman.
@@ -54,6 +63,14 @@ public class SalesMan {
         return firstname;
     }
 
+
+    /**
+     * Sets the firstname of this salesman.
+     */
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
     /**
      * Returns the lastname of this salesman.
      *
@@ -65,9 +82,17 @@ public class SalesMan {
 
 
     /**
+     * Sets the lastname of this salesman.
+     */
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+
+    /**
      * Method to display a salesman cleanly.
      *
-     * @return Returns a readable String that describes the salesmann.
+     * @return Returns a readable String that describes the salesman.
      */
     public String toString() {
         return id + ": " + firstname + " " + lastname;
@@ -76,23 +101,12 @@ public class SalesMan {
     /**
      * Compares this salesman to the given one.
      *
-     * @param s The dsalesman to compare with.
-     * @return Returns true if the salesman are equal and false if not.
+     * @param s The salesman to compare with.
+     * @return Returns true if the salesmen are equal and false if not.
      */
     public boolean equals(SalesMan s) {
-        return this.getLastname().equals(s.getLastname()) && this.getFirstname().equals(s.getFirstname()) && this.getId() == s.getId();
-    }
-
-    /*
-                                                                            must exist cause of MongoDb automatic toJson
-    -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-     */
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+        return this.getLastname().equals(s.getLastname())
+                && this.getFirstname().equals(s.getFirstname())
+                && this.getId() == s.getId();
     }
 }
