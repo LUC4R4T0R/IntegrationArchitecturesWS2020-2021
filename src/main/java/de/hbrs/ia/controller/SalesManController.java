@@ -6,9 +6,11 @@ import de.hbrs.ia.repository.ManagePersonal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+/**
+ * Controller to create, read, update and delete salesman-objects.
+ */
 @RestController
 @RequestMapping("/salesman")
 public class SalesManController {
