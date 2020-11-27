@@ -2,6 +2,7 @@ package de.hbrs.ia.repository;
 
 import com.mongodb.client.MongoCollection;
 import de.hbrs.ia.model.EvaluationRecord;
+import de.hbrs.ia.model.EvaluationRecordEntry;
 import de.hbrs.ia.model.SalesMan;
 import de.hbrs.ia.model.SalesManRecord;
 
@@ -186,5 +187,81 @@ public class ManagePersonal implements ManagePersonalInterface {
     @Override
     public void deleteEvaluationRecord(int sid, int year) {
         records.findOneAndDelete(and(eq("salesmanId", sid), eq("performance.year", year)));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    public void addRecordEntry(int id, int year,EvaluationRecordEntry ere) {
+        EvaluationRecord record = this.getOneRecord(id, year);
+        if(record != null) {
+            record.getPerformance().add(ere);
+            this.updateEvaluationRecord(new SalesManRecord(id, record));
+        }else {
+            throw new IllegalArgumentException("Für diese Id-Jahr Kombination existiert kein EvaluationRecord");
+        }
+    }
+
+
+    @Override
+    public List<EvaluationRecordEntry> getAllEntrys(int id, int year){
+        EvaluationRecord record = this.getOneRecord(id, year);
+        if(record != null) {
+            return record.getPerformance();
+        }
+        return null;
+    }
+
+
+    @Override
+    public EvaluationRecordEntry getOneEntry(int id, int year, String name) {
+        EvaluationRecord record = this.getOneRecord(id, year);
+        if(record != null) {
+            List<EvaluationRecordEntry> entries = this.getOneRecord(id, year).getPerformance();
+            int index = entries.indexOf(new EvaluationRecordEntry(0 ,0 ,name));
+            if (index >= 0) return entries.get(index);
+        }
+        return null;
+    }
+
+
+    @Override
+    public void updateEntry(int id, int year, EvaluationRecordEntry ere) {
+        EvaluationRecord record = this.getOneRecord(id, year);
+        if(record != null) {
+            List<EvaluationRecordEntry> entries = record.getPerformance();
+            int index = entries.indexOf(new EvaluationRecordEntry(0 ,0 ,ere.getName()));
+            if (index >= 0) {
+                EvaluationRecordEntry entry = entries.get(index);
+                entry.setActual(ere.getActual());
+                entry.setExpected(ere.getExpected());
+                this.updateEvaluationRecord(new SalesManRecord(id, record));
+            }
+        }
+    }
+
+
+    @Override
+    public void deleteEntry(int id, int year, String name) {
+        EvaluationRecord record = this.getOneRecord(id, year);
+        List<EvaluationRecordEntry> entries = record.getPerformance();
+        int index = entries.indexOf(new EvaluationRecordEntry(0 ,0 ,name));
+        if(index >= 0){
+            entries.remove(index);
+            record.setPerformance(entries);
+            this.updateEvaluationRecord(new SalesManRecord(id, record));
+        }
     }
 }
