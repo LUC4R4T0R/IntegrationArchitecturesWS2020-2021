@@ -4,6 +4,7 @@ import de.hbrs.ia.controller.exception.NotFoundException;
 import de.hbrs.ia.model.EvaluationRecordEntry;
 import de.hbrs.ia.repository.ManagePersonal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class EvaluationRecordEntryController {
     @Autowired
     ManagePersonal managePersonal;
 
+    @ResponseStatus(code = HttpStatus.OK, reason = "Your request was a complete success")
     @PostMapping("/{id}/evaluationrecord/{year}/entry")
     public void createRecordEntry(@PathVariable int id, @PathVariable() int year, @RequestBody() EvaluationRecordEntry ere){ //C
         managePersonal.addRecordEntry(id, year, ere);
@@ -38,6 +40,7 @@ public class EvaluationRecordEntryController {
         }
     }
 
+    @ResponseStatus(code = HttpStatus.OK, reason = "Your request was a complete success")
     @PutMapping("/{id}/evaluationrecord/{year}/entry")
     public void updateRecordEntry(@PathVariable() int id, @PathVariable int year, @RequestBody() EvaluationRecordEntry ere){ //U
         try {
@@ -47,6 +50,7 @@ public class EvaluationRecordEntryController {
         }
     }
 
+    @ResponseStatus(code = HttpStatus.OK, reason = "Your request was a complete success")
     @DeleteMapping("/{id}/evaluationrecord/{year}/entry/{name}")
     public void removeRecordEntry(@PathVariable() int id, @PathVariable int year, @PathVariable String name) { //D
         try {

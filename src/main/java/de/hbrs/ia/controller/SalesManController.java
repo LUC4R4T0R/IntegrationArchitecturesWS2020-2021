@@ -4,6 +4,7 @@ import de.hbrs.ia.controller.exception.NotFoundException;
 import de.hbrs.ia.model.SalesMan;
 import de.hbrs.ia.repository.ManagePersonal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class SalesManController {
     @Autowired
     ManagePersonal managePersonal;
 
+    @ResponseStatus(code = HttpStatus.OK, reason = "Your request was a complete success")
     @PostMapping()
     public void createSalesman(@RequestBody() SalesMan s) { //C
         managePersonal.createSalesMan(s);
@@ -42,6 +44,7 @@ public class SalesManController {
         }
     }
 
+    @ResponseStatus(code = HttpStatus.OK, reason = "Your request was a complete success")
     @PutMapping()
     public void updtaeSalesman(@RequestBody() SalesMan s) { //U
         try {
@@ -52,6 +55,7 @@ public class SalesManController {
 
     }
 
+    @ResponseStatus(code = HttpStatus.OK, reason = "Your request was a complete success")
     @DeleteMapping("/{id}")
     public void deleteSalesman(@PathVariable() int id) { //D
         try {
