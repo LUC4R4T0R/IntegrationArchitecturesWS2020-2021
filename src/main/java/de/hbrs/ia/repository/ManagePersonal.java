@@ -47,6 +47,8 @@ public class ManagePersonal implements ManagePersonalInterface {
         this.records = record;
     }
 
+    /*-------------------------------------------------------------Salesman-------------------------------------------------------------------*/
+
     /**
      * Inserts a new Salesman into the database.
      *
@@ -137,6 +139,8 @@ public class ManagePersonal implements ManagePersonalInterface {
         }
     }
 
+    /*-------------------------------------------------------------EvaluationRecord-------------------------------------------------------------------*/
+
     /**
      * Inserts a new PerformanceRecord into the database.
      *
@@ -162,6 +166,7 @@ public class ManagePersonal implements ManagePersonalInterface {
     public EvaluationRecord getOneRecord(int sid, int year) {
         SalesManRecord temp = records.find(and(eq("salesmanId", sid), eq("performance.year", year))).first();
         if (temp == null) {
+            //errorhandling in controller (null must be returned here)
             return null;
         }
         return temp.getPerformance();
@@ -178,6 +183,9 @@ public class ManagePersonal implements ManagePersonalInterface {
     public List<EvaluationRecord> readEvaluationRecords(int sid) {
         List<EvaluationRecord> e = new ArrayList<>();
         List<SalesManRecord> d = records.find(eq("salesmanId", sid)).into(new ArrayList<>());
+        if (d == null){
+            throw new NoSuchElementException();
+        }
 
         for (SalesManRecord salesManRecord : d) {
             e.add(salesManRecord.getPerformance());
@@ -194,7 +202,10 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void updateEvaluationRecord(SalesManRecord srecord) {
-        records.findOneAndReplace(and(eq("salesmanId", srecord.getSalesmanId()), eq("performance.year", srecord.getPerformance().getYear())), srecord);
+        SalesManRecord sr = records.findOneAndReplace(and(eq("salesmanId", srecord.getSalesmanId()), eq("performance.year", srecord.getPerformance().getYear())), srecord);
+        if (sr == null){
+            throw new NoSuchElementException();
+        }
     }
 
     /**
@@ -205,9 +216,13 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void deleteEvaluationRecord(int sid, int year) {
-        records.findOneAndDelete(and(eq("salesmanId", sid), eq("performance.year", year)));
+        SalesManRecord sr = records.findOneAndDelete(and(eq("salesmanId", sid), eq("performance.year", year)));
+        if (sr == null){
+            throw new NoSuchElementException();
+        }
     }
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    /*-------------------------------------------------------------EvaluationRecordEntry-------------------------------------------------------------------*/
 
     @Override
     public void addRecordEntry(int id, int year, EvaluationRecordEntry ere) {

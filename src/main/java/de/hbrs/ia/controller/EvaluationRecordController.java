@@ -1,5 +1,6 @@
 package de.hbrs.ia.controller;
 
+import de.hbrs.ia.controller.exception.NotFoundException;
 import de.hbrs.ia.model.EvaluationRecord;
 import de.hbrs.ia.repository.ManagePersonal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +23,30 @@ public class EvaluationRecordController {
 
     @GetMapping("/{id}/evaluationrecord/{year}")
     public EvaluationRecord getRecord(@PathVariable(required = true) int id, @PathVariable(required = true) int year){ //R
-        return managePersonal.getOneRecord(id, year);
+        EvaluationRecord er = managePersonal.getOneRecord(id, year);
+        if (er == null){
+            throw new NotFoundException();
+        }
+        return er;
     }
 
     @GetMapping("/{id}/evaluationrecord")
     public List<EvaluationRecord> getAll(@PathVariable(required = true) int id){ //R
-        return managePersonal.readEvaluationRecords(id);
+        try{
+            return managePersonal.readEvaluationRecords(id);
+        }catch (Exception e){
+            throw new NotFoundException();
+        }
+
     }
 
     @DeleteMapping("/{id}/evaluationrecord/{year}")
-    public void removeRecord(@PathVariable(required = true) int id, @PathVariable(required = true) int year){ //D
-        managePersonal.deleteEvaluationRecord(id, year);
+    public void deleteRecord(@PathVariable(required = true) int id, @PathVariable(required = true) int year){ //D
+        try{
+            managePersonal.deleteEvaluationRecord(id, year);
+        }catch (Exception e){
+            throw new NotFoundException();
+        }
+
     }
 }
