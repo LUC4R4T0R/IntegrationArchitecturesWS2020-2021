@@ -35,12 +35,7 @@ public class EvaluationRecordController {
 
     @GetMapping("/{id}/evaluationrecord")
     public List<EvaluationRecord> getAll(@PathVariable() int id){ //R
-        try{
-            return managePersonal.readEvaluationRecords(id);
-        }catch (Exception e){
-            throw new NotFoundException();
-        }
-
+        return managePersonal.readEvaluationRecords(id);
     }
 
     @ResponseStatus(code = HttpStatus.OK, reason = "Your request was a complete success")

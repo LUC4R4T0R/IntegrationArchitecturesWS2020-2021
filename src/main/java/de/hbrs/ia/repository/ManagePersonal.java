@@ -93,7 +93,7 @@ public class ManagePersonal implements ManagePersonalInterface {
     public List<SalesMan> querySalesMan(String attribute, String key) {
         List<SalesMan> s = salesmen.find(eq(key, attribute)).into(new ArrayList<>());
         //no object found with this id:
-        if (s == null) {
+        if (s.isEmpty()) {
             throw new NoSuchElementException();
         }
         return s;
@@ -133,7 +133,7 @@ public class ManagePersonal implements ManagePersonalInterface {
     @Override
     public void deleteSalesMen(int sid) {
         SalesMan s = salesmen.findOneAndDelete(eq("_id", sid));
-        records.deleteMany(eq("_id", sid));
+        records.deleteMany(eq("salesmanId", sid));
         if (s == null) {
             throw new NoSuchElementException();
         }
@@ -149,7 +149,7 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void addPerformanceRecord(EvaluationRecord record, int sid) {
-        if (records.find(and(eq("salesmanId", sid), eq("performance.year", record.getYear()))).first().getPerformance() != null) {
+        if (records.find(and(eq("salesmanId", sid), eq("performance.year", record.getYear()))).first() != null) {
             throw new IllegalArgumentException("For this salesman there is already a record with the given id-year combination.");
         }
         records.insertOne(new SalesManRecord(sid, record));
@@ -183,9 +183,6 @@ public class ManagePersonal implements ManagePersonalInterface {
     public List<EvaluationRecord> readEvaluationRecords(int sid) {
         List<EvaluationRecord> e = new ArrayList<>();
         List<SalesManRecord> d = records.find(eq("salesmanId", sid)).into(new ArrayList<>());
-        if (d == null) {
-            throw new NoSuchElementException();
-        }
 
         for (SalesManRecord salesManRecord : d) {
             e.add(salesManRecord.getPerformance());
@@ -233,8 +230,9 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void addRecordEntry(int id, int year, EvaluationRecordEntry ere) {
-        EvaluationRecord record = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first().getPerformance();
-        if (record != null) {
+        SalesManRecord record1 = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first();
+        if (record1 != null) {
+            EvaluationRecord record = record1.getPerformance();
             record.getPerformance().add(ere);
             this.updateEvaluationRecord(new SalesManRecord(id, record));
         } else {
@@ -250,9 +248,10 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public List<EvaluationRecordEntry> getAllEntrys(int id, int year) {
-        EvaluationRecord record = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first().getPerformance();
+        SalesManRecord record = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first();
         if (record != null) {
-            return record.getPerformance();
+            EvaluationRecord r = record.getPerformance();
+            return r.getPerformance();
         }
         throw new NoSuchElementException();
     }
@@ -262,15 +261,17 @@ public class ManagePersonal implements ManagePersonalInterface {
      *
      * @param id   The Id of the salesman that evaluationrecordentry is searched for.
      * @param year The year of the evaluationrecordentry that is searched for.
-     * @param name  The name of the evaluationrecordentry that is searched for.
+     * @param name The name of the evaluationrecordentry that is searched for.
      */
     @Override
     public EvaluationRecordEntry getOneEntry(int id, int year, String name) {
-        EvaluationRecord record = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first().getPerformance();
+        SalesManRecord record = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first();
         if (record != null) {
-            List<EvaluationRecordEntry> entries = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first().getPerformance().getPerformance();
+            EvaluationRecord er = record.getPerformance();
+            List<EvaluationRecordEntry> entries = er.getPerformance();
             int index = entries.indexOf(new EvaluationRecordEntry(0, 0, name));
             if (index >= 0) return entries.get(index);
+            else throw new NoSuchElementException();
         }
         throw new NoSuchElementException();
     }
@@ -284,18 +285,20 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void updateEntry(int id, int year, EvaluationRecordEntry ere) {
-        EvaluationRecord record = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first().getPerformance();
+        SalesManRecord record = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first();
         if (record != null) {
-            List<EvaluationRecordEntry> entries = record.getPerformance();
+            List<EvaluationRecordEntry> entries = record.getPerformance().getPerformance();
             int index = entries.indexOf(new EvaluationRecordEntry(0, 0, ere.getName()));
             if (index >= 0) {
                 EvaluationRecordEntry entry = entries.get(index);
                 entry.setActual(ere.getActual());
                 entry.setTarget(ere.getTarget());
-                this.updateEvaluationRecord(new SalesManRecord(id, record));
+                this.updateEvaluationRecord(new SalesManRecord(id, record.getPerformance()));
             }
+            else throw new NoSuchElementException();
+        } else {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
     }
 
     /**
@@ -307,16 +310,19 @@ public class ManagePersonal implements ManagePersonalInterface {
      */
     @Override
     public void deleteEntry(int id, int year, String name) {
-        EvaluationRecord record = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first().getPerformance();
-        List<EvaluationRecordEntry> entries = record.getPerformance();
-        if (entries != null) {
+        SalesManRecord record = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first();
+        if (record != null) {
+            EvaluationRecord er = record.getPerformance();
+            List<EvaluationRecordEntry> entries = er.getPerformance();
             int index = entries.indexOf(new EvaluationRecordEntry(0, 0, name));
             if (index >= 0) {
                 entries.remove(index);
-                record.setPerformance(entries);
-                this.updateEvaluationRecord(new SalesManRecord(id, record));
+                er.setPerformance(entries);
+                this.updateEvaluationRecord(new SalesManRecord(id, er));
             }
+            else throw new NoSuchElementException();
+        } else {
+            throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
     }
 }
