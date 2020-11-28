@@ -26,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
+ * @author jbrill2s, lringh2s
+ * <p>
  * Class to test all managepersonal-methods.
  */
 class ManagePersonalTest {
@@ -104,7 +106,7 @@ class ManagePersonalTest {
     */
 
     @Test
-    void constructorTest(){
+    void constructorTest() {
         //test if exeception is thrown if salesman-collection, record-collection or both are null
         assertThrows(IllegalArgumentException.class, () -> new ManagePersonal(null, records));
         assertThrows(IllegalArgumentException.class, () -> new ManagePersonal(salesmen, null));

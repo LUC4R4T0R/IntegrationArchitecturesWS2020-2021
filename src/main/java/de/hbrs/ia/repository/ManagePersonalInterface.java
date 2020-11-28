@@ -7,6 +7,12 @@ import de.hbrs.ia.model.SalesManRecord;
 
 import java.util.List;
 
+
+/**
+ * @author jbrill2s, lringh2s
+ * <p>
+ * This interface presents all the methods that are used to communicate with the mongodb.
+ */
 public interface ManagePersonalInterface {
 
     void createSalesMan(SalesMan record);

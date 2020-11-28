@@ -31,7 +31,8 @@ public class SalesManRecord {
     /**
      * Default constructor
      */
-    public SalesManRecord() {}
+    public SalesManRecord() {
+    }
 
     /**
      * Returns the performance of this entry.

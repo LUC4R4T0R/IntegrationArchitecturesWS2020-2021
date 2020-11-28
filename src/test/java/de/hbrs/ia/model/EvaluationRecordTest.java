@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author jbrill2s, lringh2s
+ * <p>
  * Class to test all evaluationrecord-methods.
  */
 public class EvaluationRecordTest {
@@ -43,7 +45,7 @@ public class EvaluationRecordTest {
     void setPerformanceTest() {
         //create entryobject-List
         List<EvaluationRecordEntry> e = new ArrayList<>();
-        e.add(new EvaluationRecordEntry(10,10,"test"));
+        e.add(new EvaluationRecordEntry(10, 10, "test"));
         //set the entylist
         e2.setPerformance(e);
         //test if set worked
@@ -68,9 +70,9 @@ public class EvaluationRecordTest {
     void equalsTest() {
         //create filled evaluationrecord-objects
         List<EvaluationRecordEntry> e = new ArrayList<>();
-        e.add(new EvaluationRecordEntry(10,10,"test"));
+        e.add(new EvaluationRecordEntry(10, 10, "test"));
         List<EvaluationRecordEntry> el = new ArrayList<>();
-        el.add(new EvaluationRecordEntry(10,11,"test"));
+        el.add(new EvaluationRecordEntry(10, 11, "test"));
         EvaluationRecord e3 = new EvaluationRecord(e, 2020);
         EvaluationRecord e4 = new EvaluationRecord(e, 2020);
         EvaluationRecord e5 = new EvaluationRecord(el, 2020);

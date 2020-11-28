@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * @author jbrill2s, lringh2s
+ * <p>
  * Class to test all salesman-methods.
  */
 public class SalesManTest {
@@ -14,7 +16,7 @@ public class SalesManTest {
     SalesMan testSalesman1 = new SalesMan("Jonas", "Brill", 1);
 
     @Test
-    void emptyconstructorTest(){
+    void emptyconstructorTest() {
         SalesMan s = new SalesMan();
         assertNotNull(s);
     }

@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 /**
+ * @author jbrill2s, lringh2s
+ * <p>
  * Class to test all evaluationrecordentry-methods.
  */
 public class EvaluationRecordEntryTest {

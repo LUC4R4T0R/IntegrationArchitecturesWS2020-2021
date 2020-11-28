@@ -18,10 +18,15 @@ import java.io.IOException;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
+/**
+ * @author jbrill2, lringh2s
+ * <p>
+ * This class starts a userinterface build with swing.
+ */
 public class SwingUI {
 
     public static ManagePersonal mP;
-	
+
     public static void main(String[] args) throws IOException {
         ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
         CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
@@ -31,7 +36,7 @@ public class SwingUI {
         MongoDatabase supermongo = mongoClient.getDatabase("highperformance");
         MongoCollection<SalesMan> salesmen = supermongo.getCollection("salesmen", SalesMan.class);
         MongoCollection<SalesManRecord> records = supermongo.getCollection("records", SalesManRecord.class);
-        
+
         mP = new ManagePersonal(salesmen, records);
 
         JFrame frame = new Overview();

@@ -11,9 +11,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
+
 import de.hbrs.ia.SwingUI;
 
-public class Overview extends JFrame{
+/**
+ * @author jbrill2s, lringh2s
+ * <p>
+ * This class reacts to the actions on the Overwiev-UI.
+ */
+public class Overview extends JFrame {
     private JButton addSalesmanButton;
     private JButton removeSalesmanButton;
     private JTable staffTable;
@@ -27,6 +33,7 @@ public class Overview extends JFrame{
 
     /**
      * main window for displaying all the salesmen and basic management functionalities
+     *
      * @throws IOException
      */
     public Overview() throws IOException {
@@ -34,10 +41,10 @@ public class Overview extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //stop whole program, when this window is closed
         this.setContentPane(mainPanel);
 
-        tm = new DefaultTableModel(){
-          public boolean isCellEditable(int row, int column){
-              return false;
-          }
+        tm = new DefaultTableModel() {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
         }; //specify table as not editable
         staffTable.setModel(tm);
         //setting column-headers:
@@ -57,7 +64,7 @@ public class Overview extends JFrame{
         staffTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
-                JTable table =(JTable) mouseEvent.getSource();
+                JTable table = (JTable) mouseEvent.getSource();
                 Point point = mouseEvent.getPoint();
                 int row = table.rowAtPoint(point);
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1 && row > -1) { //executed if salesman is double-clicked
@@ -79,9 +86,9 @@ public class Overview extends JFrame{
         removeSalesmanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //"Remove Salesman" button pressed
-                if(staffTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
-                    int n = JOptionPane.showOptionDialog(new JFrame(), "Do you really want wo delete the entry of \""+staffTable.getValueAt(staffTable.getSelectedRow(), 1)+" "+staffTable.getValueAt(staffTable.getSelectedRow(), 2)+"\" ?", "Salesman Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Yes", "No"}, "No");
-                    if(n == 0) {
+                if (staffTable.getSelectedRow() >= 0) { //only execute if a salesman has been selected
+                    int n = JOptionPane.showOptionDialog(new JFrame(), "Do you really want wo delete the entry of \"" + staffTable.getValueAt(staffTable.getSelectedRow(), 1) + " " + staffTable.getValueAt(staffTable.getSelectedRow(), 2) + "\" ?", "Salesman Deletion", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Yes", "No"}, "No");
+                    if (n == 0) {
                         SwingUI.mP.deleteSalesMen(Integer.parseInt(staffTable.getValueAt(staffTable.getSelectedRow(), 0).toString()));
                         loadStaff();
                     }
@@ -100,7 +107,7 @@ public class Overview extends JFrame{
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {//"search" button pressed
-                if(!searchBar.getText().isBlank()){ //check if search bar is not blank
+                if (!searchBar.getText().isBlank()) { //check if search bar is not blank
                     displaySalesMen(SwingUI.mP.querySalesMan(searchBar.getText(), (firstnameRadio.isSelected() ? "firstname" : "lastname"))); //search for salesman having this property
                 }
             }
@@ -111,13 +118,14 @@ public class Overview extends JFrame{
 
     /**
      * function to display salesmen in the staff table
+     *
      * @param sm list of salesmen to display
      */
-    public void displaySalesMen(List<SalesMan> sm){
+    public void displaySalesMen(List<SalesMan> sm) {
         for (int i = tm.getRowCount() - 1; i >= 0; i--) { //first empty the table
             tm.removeRow(i);
         }
-        for(SalesMan salesMan : sm){ //iterating through the list to add all salesmen
+        for (SalesMan salesMan : sm) { //iterating through the list to add all salesmen
             tm.addRow(new Object[]{Integer.toString(salesMan.getId()), salesMan.getFirstname(), salesMan.getLastname()});
         }
     }
@@ -125,15 +133,16 @@ public class Overview extends JFrame{
     /**
      * function for (re)loading all salesmen into the staff table
      */
-    public void loadStaff(){
+    public void loadStaff() {
         displaySalesMen(SwingUI.mP.getAllSalesMen());
     }
 
     /**
      * function for opening a details window
+     *
      * @param id specifies the salesman, whose details are shown
      */
-    public void openDetails(int id){
+    public void openDetails(int id) {
         SalesMan sm = SwingUI.mP.readSalesMan(id); //get salesman fromDB
         JFrame detailsFrame = new StaffDetails(sm, this); //create window
         detailsFrame.setVisible(true);

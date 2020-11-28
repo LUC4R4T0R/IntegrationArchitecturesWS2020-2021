@@ -12,10 +12,13 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 /**
+ * @author jbrill2s, lringh2s
+ * <p>
  * Configurationclass to use the ManagePersonal-class in the controller-classes
  */
 @Configuration

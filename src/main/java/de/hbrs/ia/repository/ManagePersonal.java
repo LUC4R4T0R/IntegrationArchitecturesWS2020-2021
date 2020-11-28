@@ -294,8 +294,7 @@ public class ManagePersonal implements ManagePersonalInterface {
                 entry.setActual(ere.getActual());
                 entry.setTarget(ere.getTarget());
                 this.updateEvaluationRecord(new SalesManRecord(id, record.getPerformance()));
-            }
-            else throw new NoSuchElementException();
+            } else throw new NoSuchElementException();
         } else {
             throw new NoSuchElementException();
         }
@@ -319,8 +318,7 @@ public class ManagePersonal implements ManagePersonalInterface {
                 entries.remove(index);
                 er.setPerformance(entries);
                 this.updateEvaluationRecord(new SalesManRecord(id, er));
-            }
-            else throw new NoSuchElementException();
+            } else throw new NoSuchElementException();
         } else {
             throw new NoSuchElementException();
         }

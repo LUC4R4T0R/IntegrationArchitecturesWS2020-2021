@@ -7,7 +7,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AddSalesMan extends JFrame{
+/**
+ * @author jbrill2s, lringh2s
+ * <p>
+ * This class reacts to the actions on the addSalesmen-UI.
+ */
+public class AddSalesMan extends JFrame {
     private JTextField id;
     private JTextField firstname;
     private JTextField lastname;
@@ -17,12 +22,11 @@ public class AddSalesMan extends JFrame{
     /**
      * Form for adding a new salesman
      */
-    public AddSalesMan(Overview parent){
+    public AddSalesMan(Overview parent) {
         super("Add Salesman"); //setting title
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //only close this window
         this.setContentPane(addPanel);
         this.pack();
-
 
 
         addButton.addActionListener(new ActionListener() {
@@ -33,7 +37,7 @@ public class AddSalesMan extends JFrame{
                     SwingUI.mP.createSalesMan(newSalesMan); //store salesman in DB
                     parent.loadStaff();
                     kill(); //close window
-                }catch (IllegalArgumentException ex){
+                } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(new JFrame(), "A salesman with that ID already exists!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
             }
@@ -43,7 +47,7 @@ public class AddSalesMan extends JFrame{
     /**
      * function for closing the current window
      */
-    private void kill(){
+    private void kill() {
         this.dispose();
     }
 }
