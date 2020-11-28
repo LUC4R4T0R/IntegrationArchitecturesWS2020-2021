@@ -233,6 +233,13 @@ public class ManagePersonal implements ManagePersonalInterface {
         SalesManRecord record1 = records.find(and(eq("salesmanId", id), eq("performance.year", year))).first();
         if (record1 != null) {
             EvaluationRecord record = record1.getPerformance();
+
+            List<EvaluationRecordEntry> entries = this.getAllEntrys(id,year);
+            int index = entries.indexOf(new EvaluationRecordEntry(0, 0, ere.getName()));
+            if (index >= 0){
+                throw new IllegalArgumentException("This name already exists");
+            }
+
             record.getPerformance().add(ere);
             this.updateEvaluationRecord(new SalesManRecord(id, record));
         } else {

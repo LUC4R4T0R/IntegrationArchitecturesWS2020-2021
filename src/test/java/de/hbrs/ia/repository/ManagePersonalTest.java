@@ -296,6 +296,8 @@ class ManagePersonalTest {
         assertNotNull(mp.getOneEntry(1, 2020, "name"));
         //test if exception is thrown if we try to create an entry for an non existing evaluationrecord
         assertThrows(IllegalArgumentException.class, () -> mp.addRecordEntry(4, 2020, ere));
+        //test if exception is thrown if we try to insert the same entry again
+        assertThrows(IllegalArgumentException.class, () -> mp.addRecordEntry(1, 2020, ere));
     }
 
     @Test
