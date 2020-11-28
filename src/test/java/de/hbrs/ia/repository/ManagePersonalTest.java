@@ -23,6 +23,7 @@ import static com.mongodb.client.model.Filters.eq;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Class to test all managepersonal-methods.
@@ -98,6 +99,18 @@ class ManagePersonalTest {
     static void clean() {
         cleanup();
     }
+    /*                                                                     start of constructor-tests
+   ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    */
+
+    @Test
+    void constructorTest(){
+        //test if exeception is thrown if salesman-collection, record-collection or both are null
+        assertThrows(IllegalArgumentException.class, () -> new ManagePersonal(null, records));
+        assertThrows(IllegalArgumentException.class, () -> new ManagePersonal(salesmen, null));
+        assertThrows(IllegalArgumentException.class, () -> new ManagePersonal(null, null));
+    }
+
 
     /*                                                                     start of salesman-tests
    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -184,11 +197,11 @@ class ManagePersonalTest {
         //test if exception is thrown if we try to delete a non existing salesman
         assertThrows(NoSuchElementException.class, () -> mp.deleteSalesMen(10));
         //test if the evaluationrecord of this salesman where deleted
-        assertThrows(NoSuchElementException.class, () -> mp.readEvaluationRecords(1));
+        assertEquals(new ArrayList<EvaluationRecord>(), mp.readEvaluationRecords(1));
     }
 
 
-    /*                                                                     start of salesman-tests
+    /*                                                                     start of evaluationrecord-tests
    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     */
 
@@ -206,7 +219,7 @@ class ManagePersonalTest {
         //test if create worked
         assertNotNull(records.find(eq("salesmanId", 3)).first());
         //test if exception is thrown if we try to insert the same evaluationrecord again
-        assertThrows(IllegalArgumentException.class, () -> mp.addPerformanceRecord(r4,3));
+        assertThrows(IllegalArgumentException.class, () -> mp.addPerformanceRecord(r4, 3));
     }
 
     @Test
@@ -217,7 +230,7 @@ class ManagePersonalTest {
         //test if the right evaluationrecord was red
         assertTrue(a.equals(e1));
         //test if null is returned if we try to read an evaluationrecord that does not exist
-        assertNull(mp.getOneRecord(10,2021));
+        assertNull(mp.getOneRecord(10, 2021));
     }
 
     @Test
@@ -250,7 +263,7 @@ class ManagePersonalTest {
         //test if the update worked
         assertTrue(a);
         //test if exception is thrown if we try to update a non existing evaluationrecord
-        assertThrows(NoSuchElementException.class, () -> mp.updateEvaluationRecord(new SalesManRecord(10,r4)));
+        assertThrows(NoSuchElementException.class, () -> mp.updateEvaluationRecord(new SalesManRecord(10, r4)));
     }
 
     @Test
@@ -259,7 +272,7 @@ class ManagePersonalTest {
         mp.deleteEvaluationRecord(2, 2020);
 
         //test if the evaluationrecord was deleted
-        assertThrows(NoSuchElementException.class, () -> mp.readEvaluationRecords(2));
+        assertEquals(new ArrayList<EvaluationRecord>(), mp.readEvaluationRecords(2));
         //test if exception is thrown if we try to delete a non existing evaluationrecord
         assertThrows(NoSuchElementException.class, () -> mp.deleteEvaluationRecord(10, 2020));
     }
@@ -269,66 +282,66 @@ class ManagePersonalTest {
     */
 
     @Test
-    public void addRecordEntryTest(){
+    public void addRecordEntryTest() {
         //create new evaluationrecordentry
-        EvaluationRecordEntry ere = new EvaluationRecordEntry(10,10,"name");
+        EvaluationRecordEntry ere = new EvaluationRecordEntry(10, 10, "name");
         //insert it into the dataabase
-        mp.addRecordEntry(1,2020,ere);
+        mp.addRecordEntry(1, 2020, ere);
 
-        mp.createSalesMan(new SalesMan("Jonas","Brill",4));
+        mp.createSalesMan(new SalesMan("Jonas", "Brill", 4));
 
         //test if create worked
-        assertNotNull(mp.getOneEntry(1,2020,"name"));
+        assertNotNull(mp.getOneEntry(1, 2020, "name"));
         //test if exception is thrown if we try to create an entry for an non existing evaluationrecord
-        assertThrows(IllegalArgumentException.class, () -> mp.addRecordEntry(4,2020,ere));
+        assertThrows(IllegalArgumentException.class, () -> mp.addRecordEntry(4, 2020, ere));
     }
 
     @Test
-    public void getAllEntrysTest(){
+    public void getAllEntrysTest() {
         //try to get all evaluationrecordentries with this is and year
-        List<EvaluationRecordEntry> le = mp.getAllEntrys(1,2020);
+        List<EvaluationRecordEntry> le = mp.getAllEntrys(1, 2020);
 
         //test if the right entries where red
         assertTrue(le.get(0).equals(e1.getPerformance().get(0)) && le.get(1).equals(e1.getPerformance().get(1)));
         //test if exception is thrown if we try to read non existing entries
-        assertThrows(NoSuchElementException.class, () -> mp.getAllEntrys(10,2020));
+        assertThrows(NoSuchElementException.class, () -> mp.getAllEntrys(10, 2020));
     }
 
     @Test
-    public void getOneEntryTest(){
+    public void getOneEntryTest() {
         //try to read the evaluationrecordentry with the id 2, year 2020 and name "ld"
-        EvaluationRecordEntry ere = mp.getOneEntry(2,2020,"ld");
+        EvaluationRecordEntry ere = mp.getOneEntry(2, 2020, "ld");
 
         //test if the right evaluationrecordentry was red
         assertEquals(e3.getPerformance().get(1), ere);
         //test if exception is thrown if we try to read a non existing evaluationrecordentry
-        assertThrows(NoSuchElementException.class,() -> mp.getOneEntry(10,2020,"ld"));
-        assertThrows(NoSuchElementException.class,() -> mp.getOneEntry(2,2020,"le"));
+        assertThrows(NoSuchElementException.class, () -> mp.getOneEntry(10, 2020, "ld"));
+        assertThrows(NoSuchElementException.class, () -> mp.getOneEntry(2, 2020, "le"));
     }
 
     @Test
-    public void updateEntryTest(){
+    public void updateEntryTest() {
         //create new evaluationrecordentries
-        EvaluationRecordEntry ere = new EvaluationRecordEntry(10,10,"ld");
-        EvaluationRecordEntry ere1 = new EvaluationRecordEntry(10,10,"le");
+        EvaluationRecordEntry ere = new EvaluationRecordEntry(10, 10, "ld");
+        EvaluationRecordEntry ere1 = new EvaluationRecordEntry(10, 10, "le");
         //update the entry
-        mp.updateEntry(2,2020, ere);
+        mp.updateEntry(2, 2020, ere);
 
         //test if update worked
         assertEquals(ere, e3.getPerformance().get(1));
         //test if exception is thrown if we try to update a non existing entry
-        assertThrows(NoSuchElementException.class, () -> mp.updateEntry(2,2020, ere1));
-        assertThrows(NoSuchElementException.class, () -> mp.updateEntry(4,2020, ere));
+        assertThrows(NoSuchElementException.class, () -> mp.updateEntry(2, 2020, ere1));
+        assertThrows(NoSuchElementException.class, () -> mp.updateEntry(4, 2020, ere));
 
     }
 
     @Test
-    public void deleteEntryTest(){
+    public void deleteEntryTest() {
         //delete the evaluationrecordenty with the id 2 and year 2020 and name "ld"
         mp.deleteEntry(2, 2020, "ld");
 
         //test if the evaluationrecord was deleted
-        assertThrows(NoSuchElementException.class, () -> mp.getOneEntry(2,2020,"ld"));
+        assertThrows(NoSuchElementException.class, () -> mp.getOneEntry(2, 2020, "ld"));
         //test if exception is thrown if we try to delete a non existing evaluationrecord
         assertThrows(NoSuchElementException.class, () -> mp.deleteEntry(2, 2020, "le"));
         assertThrows(NoSuchElementException.class, () -> mp.deleteEntry(4, 2020, "ld"));
